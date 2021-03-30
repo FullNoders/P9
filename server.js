@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { getTemplate, renderTemplate } from './router.js';
 import http from 'http';
 import url from 'url';
