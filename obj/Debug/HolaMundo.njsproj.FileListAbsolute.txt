@@ -1,3 +1,0 @@
-D:\#DAW-UOC\2oSemestre\p9_Node\Fuentes\HolaMundo\HolaMundo\obj\Debug\HolaMundo.njsprojAssemblyReference.cache
-D:\#DAW-UOC\2oSemestre\p9_Node\Fuentes\HolaMundo\HolaMundo\obj\Debug\HolaMundo.njsproj.CoreCompileInputs.cache
-D:\#DAW-UOC\2oSemestre\p9_Node\Fuentes\HolaMundo\HolaMundo\bin\Microsoft.NodejsTools.WebRole.dll

@@ -8,7 +8,7 @@ var port = process.env.PORT || 1337;
 const server = http.createServer((req, res) => {
 
     const path = req.url;
-    console.log(`${__dirname}`);
+    //console.log(`${__dirname}`);
     
 
 

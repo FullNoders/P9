@@ -1,9 +1,9 @@
 {
-  "name": "hola-mundo",
-  "version": "0.0.0",
-  "description": "HolaMundo",
+  "name": "Producto2_P9",
+  "version": "0.0.1",
+  "description": "Producto2_P9",
   "main": "server.js",
   "author": {
-    "name": ""
+    "name": "FullNoders"
   }
 }
