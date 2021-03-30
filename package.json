@@ -1,9 +1,20 @@
 {
-  "name": "Producto2_P9",
+  "name": "producto2_p9",
   "version": "0.0.1",
   "description": "Producto2_P9",
   "main": "server.js",
-  "author": {
-    "name": "FullNoders"
-  }
+  "author": "FullNoders",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FullNoders/P9.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FullNoders/P9/issues"
+  },
+  "homepage": "https://github.com/FullNoders/P9#readme"
 }
