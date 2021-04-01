@@ -2,10 +2,11 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export {getTemplate, renderTemplate}
+export {getTemplate, renderTemplate, routerUrl}
 
 function getTemplate(template) {
     let value= fs.readFileSync(`${__dirname}/views/` + template + `.html`, 'utf8');
@@ -29,4 +30,25 @@ function renderTemplate(template, res) {
     let fullContent = header + css + container + footer;
     //renderizamos el contenido completo
     res.end(fullContent);
+}
+
+function routerUrl(path, res){
+    switch (path) {
+        case '/':
+            renderTemplate('home',res);
+            break;
+        case '/login':
+            renderTemplate('login',res);
+            break;
+        case'/play':
+            renderTemplate('play',res);
+            break;
+        case '/room':
+            renderTemplate('room',res);
+            break;
+        default:
+            res.writeHead(404);
+            res.end('Pagina 404');
+            break;
+    }
 }

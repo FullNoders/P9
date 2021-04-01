@@ -1,11 +1,11 @@
 <main class="px-3">
 
-    <form>
+    <form id="formu">
         <h1 class="h3 mb-3 fw-normal">Por favor, introduce un nombre de usuario visible para el resto de jugadores</h1>
     
         <div class="form-floating">
-          <input type="username" class="form-control" id="floatingInput" placeholder="Nombre de usuario">
           <label for="floatingInput">Nombre de usuario</label>
+          <input type="username" class="form-control" id="username" placeholder="Nombre de usuario">
         </div>
 
         <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
@@ -13,6 +13,46 @@
       </form>
 
 </main>
+
+
+
+
+
+
+
+
+
+
+<!--Scripts here-->
+<script>
+if (typeof(Storage) === "undefined") {
+  alert("tu navegador no soporta storage")
+  window.location.href = '/';           
+}
+</script>
+
+<script>
+   function setUserName(){
+      const userName = document.getElementById('username').value;
+      if (userName!=''){
+        localStorage.setItem("username",userName);
+        window.location.href = './play';
+      }else{
+        alert("introduce nombre de usuario");
+        
+      }
+    }
+    const form = document.getElementById("formu");
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      setUserName();
+    }
+   
+
+    
+    
+
+</script>
 
 
    

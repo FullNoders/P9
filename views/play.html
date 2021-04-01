@@ -1,0 +1,29 @@
+<!--Content here-->
+
+<main class="px-3">
+    <h1>This is play</h1>
+    <p id="user"></p>
+
+</main>
+
+<!--Scripts here-->
+
+<script>
+    
+    if (typeof(Storage) !== "undefined") {
+        // Code for localStorage/localStorage.
+        if (localStorage.getItem("username")===null){
+        //no esta definido
+        window.location.href = './login';
+        }else{
+            let user = localStorage.getItem('username');
+            document.getElementById('user').innerHTML=user;
+
+        }
+    } else {
+        alert("tu navegador no soporta storage");
+        window.location.href = '/';
+    }
+    
+</script>
+<!--END File-->
