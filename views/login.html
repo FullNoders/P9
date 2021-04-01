@@ -1,8 +1,31 @@
 <main class="px-3">
 
+            <!-- Carousel -->
+            <div id="carouselExampleIndicators" class="carousel" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+
+              </div>
+              <div id="avataresHTML" class="carousel-inner">
+              
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            <!-- End carousel -->
+
     <form id="formu">
-        <h1 class="h3 mb-3 fw-normal">Por favor, introduce un nombre de usuario visible para el resto de jugadores</h1>
-    
+        <h3 class="h3 mb-3 fw-normal">Selecciona tu avatar <br>y escribe tu nombre de usuario</h3>    
+
         <div class="form-floating">
           <label for="floatingInput">Nombre de usuario</label>
           <input type="username" class="form-control" id="username" placeholder="Nombre de usuario">
@@ -16,13 +39,6 @@
 
 
 
-
-
-
-
-
-
-
 <!--Scripts here-->
 <script>
 if (typeof(Storage) === "undefined") {
@@ -32,6 +48,30 @@ if (typeof(Storage) === "undefined") {
 </script>
 
 <script>
+
+  const avatares = [
+    {
+      id: 1,
+      turtle: 'Miguel Ángel',
+      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/michelangelo-character-web-desktop.png'
+    },
+    {
+      id: 2,
+      turtle: 'Leonardo',
+      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/leonardo-character-web-desktop.png'
+    },
+    {
+      id: 3,
+      turtle: 'Donatello',
+      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/donatello-character-web-desktop.png'
+    },
+    {
+      id: 4,
+      turtle: 'Rafael',
+      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/raphael-character-web-desktop.png'
+    }
+  ];
+
    function setUserName(){
       const userName = document.getElementById('username').value;
       if (userName!=''){
@@ -48,8 +88,29 @@ if (typeof(Storage) === "undefined") {
       setUserName();
     }
    
+    window.onload = function(){
+      // Quita la autoreproducción
+      var myCarousel = document.getElementById('carouselExampleIndicators');
+      var carousel = new bootstrap.Carousel(myCarousel, {
+        interval: false
+      })
 
-    
+      // Cargamos avatares
+      let avataresHTML = "";
+      let active = "";
+      avatares.forEach(element => {
+        if(element.id == 1){
+          active = " active";
+        }else{
+          active = "";
+        }
+        avataresHTML += '<div id="'+element.id+'" class="carousel-item'+active+'">';
+        avataresHTML += '<img src="'+element.img+'" class="d-block w-100" alt="'+element.turtle+'">';
+        avataresHTML += '</div>';
+        document.getElementById('avataresHTML').innerHTML = avataresHTML;
+      });
+
+    }
     
 
 </script>

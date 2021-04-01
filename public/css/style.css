@@ -11,3 +11,20 @@
       font-size: 3.5rem;
     }
   }
+
+  .carousel-item img{
+    width:128px;
+    height:128px;
+  }
+
+  .carousel-item{
+    width:128px !important;
+    height:128px;
+    float:none !important;
+    margin:0px auto !important;
+  }
+
+  /* Estilo para el input del formulario */
+  .form-control{
+    background-color: #41464b;
+  }
