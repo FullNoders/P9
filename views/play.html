@@ -2,7 +2,7 @@
 
 <main class="px-3">
     <h1>Hola <span id="username"></span>,</h1>
-    <p>Arrastra tu avatar a una sala para jugar</p>
+    <p>Arrastra a <span id="turtleName"></span> a una sala para jugar</p>
     <div id="avatar"></div>
     <br>
     <!-- Salas -->
@@ -40,8 +40,10 @@
             document.getElementById('username').innerHTML = username;
             // Avatar de usuario
             let avatar = localStorage.getItem('avatar');
-            document.getElementById('avatar').innerHTML = avatar;
-
+            avatar = JSON.parse(avatar);
+            let avatarHTML = '<img style="width:128px;height:128px;" src="'+avatar.img+'" alt="'+avatar.turtle+'">';
+            document.getElementById('avatar').innerHTML = avatarHTML;
+            document.getElementById('turtleName').innerHTML = avatar.turtle;
         }
     } else {
         alert("tu navegador no soporta storage");

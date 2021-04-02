@@ -95,7 +95,7 @@ if (typeof(Storage) === "undefined") {
               let avatarObj = avatares.find(obj => {
               return obj.id == thisActive.id
               });
-              localStorage.setItem('avatar', avatarObj);
+              localStorage.setItem('avatar', JSON.stringify(avatarObj));
               return true;
             }
     }
@@ -141,7 +141,7 @@ if (typeof(Storage) === "undefined") {
       form.onsubmit = (e) => {
       e.preventDefault();
       if(setUserName()&&setAvatar()){
-        //window.location.href = './play';
+        window.location.href = './play';
       }
     }
       

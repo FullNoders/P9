@@ -3,7 +3,7 @@ import http from 'http';
 import url from 'url';
 
 const hostname = '127.0.0.1';
-const port = 1337;
+const port = 1338;
 
 const server = http.createServer((req, res) => {
     const path = req.url;
