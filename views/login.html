@@ -37,6 +37,8 @@
 
 </main>
 
+<h1 id="prueba"></h1>
+
 
 
 <!--Scripts here-->
@@ -50,6 +52,11 @@ if (typeof(Storage) === "undefined") {
 <script>
 
   const avatares = [
+    {
+      id: 0,
+      turtle: 'Unknown',
+      img: 'https://w7.pngwing.com/pngs/457/524/png-transparent-question-mark-signs-fictional-character-desktop-wallpaper-emoticon.png'
+    },
     {
       id: 1,
       turtle: 'Miguel Ángel',
@@ -110,7 +117,20 @@ if (typeof(Storage) === "undefined") {
         document.getElementById('avataresHTML').innerHTML = avataresHTML;
       });
 
-    }
+      var thisActive = document.getElementsByClassName('carousel-item').getAttribute(active);
+            
+      if (thisActive.id == avatares[0].id){
+        //Si no existe avatar
+        alert("No hay avatar seleccionado");
+      }else{
+        //existe avatar
+        localStorage.setItem('avatar', thisActive.getAttribute(src));
+        var prueba = localStorage.getItem('avatar');
+        document.getElementById('prueba').innerHTML = prueba;      
+      }
+    }//onload
+
+
     
 
 </script>
