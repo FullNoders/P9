@@ -1,8 +1,27 @@
 <!--Content here-->
 
 <main class="px-3">
-    <h1>This is play</h1>
-    <p id="user"></p>
+    <h1>Hola <span id="username"></span>,</h1>
+    <p>Arrastra tu avatar a una sala para jugar</p>
+    <div id="avatar"></div>
+    <br>
+    <!-- Salas -->
+    <div class="container overflow-hidden salas">
+        <div class="row gy-5">
+          <div class="col-6">
+            <div class="p-3 border bg-light">Sala 1</div>
+          </div>
+          <div class="col-6">
+            <div class="p-3 border bg-light">Sala 2</div>
+          </div>
+          <div class="col-6">
+            <div class="p-3 border bg-light">Sala 3</div>
+          </div>
+          <div class="col-6">
+            <div class="p-3 border bg-light">Sala 4</div>
+          </div>
+        </div>
+      </div>
 
 </main>
 
@@ -16,8 +35,12 @@
         //no esta definido
         window.location.href = './login';
         }else{
-            let user = localStorage.getItem('username');
-            document.getElementById('user').innerHTML=user;
+            // Nombre de usuario
+            let username = localStorage.getItem('username');
+            document.getElementById('username').innerHTML = username;
+            // Avatar de usuario
+            let avatar = localStorage.getItem('avatar');
+            document.getElementById('avatar').innerHTML = avatar;
 
         }
     } else {

@@ -28,3 +28,8 @@
   .form-control{
     background-color: #41464b;
   }
+
+  /* Estilo para salas de juego */
+  .salas{
+    color:black;
+  }
