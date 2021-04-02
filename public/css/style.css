@@ -13,13 +13,13 @@
   }
 
   .carousel-item img{
-    width:128px;
-    height:128px;
+    width:256px;
+    height:256px;
   }
 
   .carousel-item{
-    width:128px !important;
-    height:128px;
+    width:256px !important;
+    height:256px;
     float:none !important;
     margin:0px auto !important;
   }
