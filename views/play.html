@@ -9,16 +9,16 @@
     <div class="container overflow-hidden salas">
         <div class="row gy-5">
           <div class="col-6">
-            <div class="p-3 border bg-light">Sala 1</div>
+            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 1</p></div>
           </div>
           <div class="col-6">
-            <div class="p-3 border bg-light">Sala 2</div>
+            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 2</p></div>
           </div>
           <div class="col-6">
-            <div class="p-3 border bg-light">Sala 3</div>
+            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 3</p></div>
           </div>
           <div class="col-6">
-            <div class="p-3 border bg-light">Sala 4</div>
+            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 4</p></div>
           </div>
         </div>
       </div>
@@ -41,13 +41,27 @@
             // Avatar de usuario
             let avatar = localStorage.getItem('avatar');
             avatar = JSON.parse(avatar);
-            let avatarHTML = '<img style="width:128px;height:128px;" src="'+avatar.img+'" alt="'+avatar.turtle+'">';
+            let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.img+'" alt="'+avatar.turtle+'">';
             document.getElementById('avatar').innerHTML = avatarHTML;
             document.getElementById('turtleName').innerHTML = avatar.turtle;
         }
     } else {
         alert("tu navegador no soporta storage");
         window.location.href = '/';
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
     }
     
 </script>

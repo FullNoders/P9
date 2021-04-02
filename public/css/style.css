@@ -33,3 +33,7 @@
   .salas{
     color:black;
   }
+
+  .room{
+    height: 200px !important;
+  }
