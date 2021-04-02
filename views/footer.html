@@ -1,9 +1,18 @@
 
+<script>
+    function deleteStorage(){
+        localStorage.removeItem('username');
+        localStorage.removeItem('avatar');
+        alert("Tus datos han sido borrados")
+        window.location.href = '/';
+    }
 
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 <footer class="mt-auto text-white-50">
-    <p>Un juego desarrollado por <a href="#" class="text-white">FullNoders</a>, para la <a href="https://www.uoc.edu" class="text-white">UOC</a>.</p>
+    <a style="text-decoration: underline; cursor: pointer;" onClick="deleteStorage()">Borrar datos de juego</a>
+    <p style="margin-top:40px;">Un juego desarrollado por <a href="#" class="text-white">FullNoders</a>, para la <a href="https://www.uoc.edu" class="text-white">UOC</a>.</p>
 </footer>
 </div>
 </body>
