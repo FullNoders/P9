@@ -2,23 +2,23 @@
 
 <main class="px-3">
     <h1>Hola <span id="username"></span>,</h1>
-    <p>Arrastra a <span id="turtleName"></span> a una sala para jugar</p>
+    <p id="parrafo">Arrastra a <span id="turtleName"></span> a una sala para jugar</p>
     <div id="avatar"></div>
     <br>
     <!-- Salas -->
     <div class="container overflow-hidden salas">
         <div class="row gy-5">
-          <div class="col-6">
-            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 1</p></div>
+          <div class="col-6 parentRoom">
+            <div id="room1" name="" class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 1</p></div>
           </div>
-          <div class="col-6">
-            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 2</p></div>
+          <div class="col-6 parentRoom">
+            <div id="room2" name="" class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 2</p></div>
           </div>
-          <div class="col-6">
-            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 3</p></div>
+          <div class="col-6 parentRoom">
+            <div id="room3" name="" class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 3</p></div>
           </div>
-          <div class="col-6">
-            <div class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 4</p></div>
+          <div class="col-6 parentRoom">
+            <div id="room4" name="" class="p-3 border bg-light room" ondrop="drop(event)" ondragover="allowDrop(event)"><p>Sala 4</p></div>
           </div>
         </div>
       </div>
@@ -28,6 +28,28 @@
 <!--Scripts here-->
 
 <script>
+    idParent=undefined;
+    
+
+    window.onload = ()=>{
+      saveRoom = localStorage.getItem('room');
+      if(saveRoom =='room1'||saveRoom=='room2'||saveRoom=='room3'||saveRoom=='room4'){
+        //alert("hay guardada una sala")
+        var img = document.createElement('img');
+        let avatar = localStorage.getItem('avatar');
+        avatar = JSON.parse(avatar);
+        img.setAttribute('src',avatar.img);
+        let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.img+'" alt="'+avatar.turtle+'">';
+        document.getElementById(saveRoom).innerHTML += avatarHTML;
+        document.getElementById('avatar').innerHTML='';
+        document.getElementById('parrafo').innerText='Todo listo para que '+avatar.turtle+' comience el juego';
+      }
+      
+      /* else{
+        alert("no hay guardada una sala")
+      } */        
+      
+    }
     
     if (typeof(Storage) !== "undefined") {
         // Code for localStorage/localStorage.
@@ -50,19 +72,38 @@
         window.location.href = '/';
     }
 
+    // D&D 
     function allowDrop(ev) {
       ev.preventDefault();
+      
     }
-
+    
     function drag(ev) {
       ev.dataTransfer.setData("text", ev.target.id);
+      
+      
     }
 
     function drop(ev) {
       ev.preventDefault();
       var data = ev.dataTransfer.getData("text");
-      ev.target.appendChild(document.getElementById(data));
+      //Evitamos arrastrar si hay una sala ya elegida
+      if(localStorage.getItem('room')==undefined){
+               
+          ev.target.appendChild(document.getElementById(data));
+          idParent=ev.target.id;
+          //Guardamos la sala en Storage
+          setSaveRoom(idParent);
+        
+      }
     }
+
+    function setSaveRoom(idPar){
+        if($(idPar).children().find("img")){
+          $('#'+idPar).attr('name','select');
+          localStorage.setItem('room',idPar);
+        }
+      }
     
 </script>
 <!--END File-->
