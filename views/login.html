@@ -1,156 +1,42 @@
 <main class="px-3">
-
-            <!-- Carousel -->
-            <div id="carouselExampleIndicators" class="carousel" data-bs-ride="carousel">
-              <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
-
-              </div>
-              <div id="avataresHTML" class="carousel-inner">
-              
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-            <!-- End carousel -->
-
-    <form id="formu">
-        <h3 class="h3 mb-3 fw-normal">Selecciona tu avatar <br>y escribe tu nombre de usuario</h3>    
-
-        <div class="form-floating">
-          <label for="floatingInput">Nombre de usuario</label>
-          <input type="username" class="form-control" id="username" placeholder="Nombre de usuario">
-        </div>
-
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
-        <p class="mt-5 mb-3 text-muted">©2021</p>
-      </form>
-
+  <!-- Carousel -->
+  <div id="carouselExampleIndicators" class="carousel" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
+    <div id="avataresHTML" class="carousel-inner">
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  <!-- End carousel -->
+  </div>
+  <!-- Formulario -->
+  <form id="formu">
+      <h3 class="h3 mb-3 fw-normal">Selecciona tu avatar <br>y escribe tu nombre de usuario</h3>    
+      <div class="form-floating">
+        <label for="floatingInput">Nombre de usuario</label>
+        <input type="username" class="form-control" id="username" placeholder="Nombre de usuario">
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+      <p class="mt-5 mb-3 text-muted">©2021</p>
+    <!-- End Formulario -->
+    </form>
+    <!-- End Main -->
 </main>
 
+<!-- Funciones JS -->
+<script type="text/javascript" src="../public/js/loginFunctions.js"></script>
 
-
-
-
-<!--Scripts here-->
-<script>
-if (typeof(Storage) === "undefined") {
-  alert("tu navegador no soporta storage")
-  window.location.href = '/';           
-}
-</script>
-
-<script>
-
-  const avatares = [
-    {
-      id: 0,
-      turtle: 'Unknown',
-      img: 'https://i.pinimg.com/originals/73/6e/04/736e0413ebfe04be99ebc28be4c55fa2.png'
-    },
-    {
-      id: 1,
-      turtle: 'Miguel Ángel',
-      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/michelangelo-character-web-desktop.png'
-    },
-    {
-      id: 2,
-      turtle: 'Leonardo',
-      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/leonardo-character-web-desktop.png'
-    },
-    {
-      id: 3,
-      turtle: 'Donatello',
-      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/donatello-character-web-desktop.png'
-    },
-    {
-      id: 4,
-      turtle: 'Rafael',
-      img: 'https://nick-intl.mtvnimages.com/uri/mgid:file:gsp:kids-assets:/nick/properties/teenage-mutant-ninja-turtles/characters/raphael-character-web-desktop.png'
-    }
-  ];
-
-
-    function setAvatar(){
-      //guardamos avatar en storage
-      var thisActive = document.getElementsByClassName('carousel-item active')[0];
-      
-            if (thisActive.id == avatares[0].id){
-              //Si no existe avatar
-              alert("No hay avatar seleccionado");
-              return false;
-            }else{
-              //existe avatar
-              
-              let avatarObj = avatares.find(obj => {
-              return obj.id == thisActive.id
-              });
-              localStorage.setItem('avatar', JSON.stringify(avatarObj));
-              return true;
-            }
-    }
-    
-   function setUserName(){
-      const userName = document.getElementById('username').value;
-      if (userName!=''){
-        localStorage.setItem("username",userName);
-        return true;
-
-      }else{
-        alert("introduce nombre de usuario");
-        return false;
-      }
-    }
-
-    
-   
-    window.onload = function(){
-      // Quita la autoreproducción
-      var myCarousel = document.getElementById('carouselExampleIndicators');
-      var carousel = new bootstrap.Carousel(myCarousel, {
-        interval: false
-      })
-
-      // Cargamos avatares
-      let avataresHTML = "";
-      let active = "";
-      avatares.forEach(element => {
-        if(element.id == 0){
-          active = " active";
-        }else{
-          active = "";
-        }
-        avataresHTML += '<div id="'+element.id+'" class="carousel-item'+active+'">';
-        avataresHTML += '<img src="'+element.img+'" class="d-block w-100" alt="'+element.turtle+'">';
-        avataresHTML += '</div>';
-        document.getElementById('avataresHTML').innerHTML = avataresHTML;
-      });
-
-      //comportamiento formulario y redirección si avatar y username es correcto
-      const form = document.getElementById("formu");
-      form.onsubmit = (e) => {
-      e.preventDefault();
-      if(setUserName()&&setAvatar()){
-        window.location.href = './play';
-      }
-    }
-      
-    }//onload
-
-
-    
-
-</script>
 
 
    

@@ -18,16 +18,12 @@ function renderTemplate(template, res) {
     res.setHeader('Content-Type', 'text/html');
     //header
     const header = getTemplate('header');
-    // CSS
-    //const css_cover = fs.readFileSync(`${__dirname}/public/css/cover.css`, 'utf-8');
-    //const css_styles = fs.readFileSync(`${__dirname}/public/css/style.css`, 'utf-8');
-    //const css = '<style>' + css_styles + '</style>' + '<style>' + css_cover + '</style>';
-    //container
+    // container
     const container = getTemplate(template);
     //footer
     const footer = getTemplate('footer');
     //Unimos todas las piezas html
-    //let fullContent = header + css + container + footer;
+    //let fullContent = header + container + footer;
     let fullContent = header + container + footer;
     //renderizamos el contenido completo
     res.end(fullContent);
@@ -35,43 +31,52 @@ function renderTemplate(template, res) {
 
 function routerUrl(path, res){
     switch (path) {
+        // Portada
         case '/':
             renderTemplate('home',res);
             break;
+        // Login
         case '/login':
             renderTemplate('login',res);
             break;
+        // Play    
         case'/play':
             renderTemplate('play',res);
             break;
+        // Sala    
         case '/room':
             renderTemplate('room',res);
             break;
+        // CSS    
         case '/public/css/style.css':
-            const styles = fs.readFile(`${__dirname}/public/css/style.css`,'utf8',(err,data)=>{
-                if(err){
-                    res.end('Error');
-                }else{
-                    res.writeHead(200,{'Content-Type':'text/css'});
-                    res.write(data);
-                    res.end();
-                }
-            });
+            readFileServer('/public/css/style.css','text/css',res);
             break;
         case '/public/css/cover.css':
-            const cover = fs.readFile(`${__dirname}/public/css/cover.css`,'utf8',(err,data)=>{
-                if(err){
-                    res.end('Error');
-                }else{
-                    res.writeHead(200,{'Content-Type':'text/css'});
-                    res.write(data);
-                    res.end();
-                }
-            });
+            readFileServer('/public/css/cover.css','text/css',res);
             break;
+        //  JS
+        case '/public/js/playFunctions.js':
+            readFileServer('/public/js/playFunctions.js','text/javascript',res);
+            break;  
+        case '/public/js/loginFunctions.js':
+            readFileServer('/public/js/loginFunctions.js','text/javascript',res);
+            break;      
         default:
             res.writeHead(404);
             res.end('Pagina 404');
             break;
     }
+}
+
+// Función para cargar archivos del servidor
+function readFileServer(filePath, contentType, res){
+    const file = fs.readFile(`${__dirname}`+filePath,'utf8',(err,data)=>{
+        if(err){
+            res.end('Error');
+        }else{
+            res.writeHead(200,{'Content-Type':contentType});
+            res.write(data);
+            res.end();
+        }
+    });
 }
