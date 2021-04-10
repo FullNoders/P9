@@ -23,7 +23,6 @@ function renderTemplate(template, res) {
     //footer
     const footer = getTemplate('footer');
     //Unimos todas las piezas html
-    //let fullContent = header + container + footer;
     let fullContent = header + container + footer;
     //renderizamos el contenido completo
     res.end(fullContent);
@@ -49,18 +48,21 @@ function routerUrl(path, res){
             break;
         // CSS    
         case '/public/css/style.css':
-            readFileServer('/public/css/style.css','text/css',res);
+            readFileServer(path,'text/css',res);
             break;
         case '/public/css/cover.css':
-            readFileServer('/public/css/cover.css','text/css',res);
+            readFileServer(path,'text/css',res);
             break;
         //  JS
         case '/public/js/playFunctions.js':
-            readFileServer('/public/js/playFunctions.js','text/javascript',res);
+            readFileServer(path,'text/javascript',res);
             break;  
         case '/public/js/loginFunctions.js':
-            readFileServer('/public/js/loginFunctions.js','text/javascript',res);
-            break;      
+            readFileServer(path,'text/javascript',res);
+            break;    
+        case '/public/js/footerFunctions.js':
+            readFileServer(path,'text/javascript',res);
+            break;     
         default:
             res.writeHead(404);
             res.end('Pagina 404');
