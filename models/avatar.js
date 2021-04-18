@@ -1,15 +1,16 @@
-function Room(id, name, players) {
+function Avatar(id, image, name) {
     this.id = id;
+    this.image = image;
     this.name = name;
-    this.players = players;
 
     this.getId = function() {
         return this.id;
     }
+    this.getImage = function() {
+        return this.image;
+    }
+
     this.getName = function() {
         return this.name;
-    }
-    this.getPlayers = function() {
-        return this.players;
     }
 }
