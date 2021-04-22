@@ -1,12 +1,17 @@
-import fs from 'fs';
+/* import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(__filename); */
 
-export {getTemplate, renderTemplate, routerUrl}
+//import express from 'express';
+
+export {routerUrl}
+
+
+//export {getTemplate, renderTemplate, routerUrl}
 
 function getTemplate(template) {
     let value= fs.readFileSync(`${__dirname}/views/` + template + `.html`, 'utf8');
@@ -28,8 +33,34 @@ function renderTemplate(template, res) {
     res.end(fullContent);
 }
 
-function routerUrl(path, res){
-    switch (path) {
+function routerUrl(app){
+
+    app.get('/',(req,res)=>{
+        res.type('text/html');
+        //Funcion para renderizar plantillas desde vista
+        res.send('Principal');
+      });
+      
+      //500
+      app.use((err, req, res, next) => {
+        console.error(err.message);
+        res.type('text/plain');
+        res.status(500);
+        res.send('500 - Server error');
+      });
+
+      //404
+      app.use((req,res) => {
+        res.type('text/plain');
+        res.status(404);
+        res.send('404 - Not Found');
+      });
+
+
+
+
+
+      /*  switch (path) {
         // Portada
         case '/':
             renderTemplate('home',res);
@@ -67,7 +98,7 @@ function routerUrl(path, res){
             res.writeHead(404);
             res.end('Pagina 404');
             break;
-    }
+    } */
 }
 
 // Función para cargar archivos del servidor
