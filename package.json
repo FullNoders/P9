@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/FullNoders/P9/issues"
   },
-  "homepage": "https://github.com/FullNoders/P9#readme"
+  "homepage": "https://github.com/FullNoders/P9#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
