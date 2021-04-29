@@ -8,7 +8,11 @@ const __dirname = dirname(__filename); */
 
 //import express from 'express';
 
-export {routerUrl}
+
+//export {routerUrl}
+
+const pug = require('pug');
+
 
 
 //export {getTemplate, renderTemplate, routerUrl}
@@ -18,27 +22,30 @@ function getTemplate(template) {
     return value
 }
 
-function renderTemplate(template, res) {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
+function renderTemplate() {
+    //res.statusCode = 200;
+    //res.setHeader('Content-Type', 'text/html');
     //header
-    const header = getTemplate('header');
+    const header = pug.compiledFile('header.pug');
     // container
-    const container = getTemplate(template);
+    const container = pug.compiledFile('home.pug');
     //footer
-    const footer = getTemplate('footer');
+    const footer = pug.compiledFile('footer.pug');
     //Unimos todas las piezas html
     let fullContent = header + container + footer;
     //renderizamos el contenido completo
-    res.end(fullContent);
+    //res.end(fullContent);
+    return fullContent;
 }
 
 function routerUrl(app){
 
     app.get('/',(req,res)=>{
-        res.type('text/html');
+        //res.type('text/html');
         //Funcion para renderizar plantillas desde vista
-        res.send('Principal');
+        //res.send(renderTemplate());
+        const content = renderTemplate();
+        pug.renderFile(content, {});
       });
       
       //500

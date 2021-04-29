@@ -4,7 +4,6 @@
   "description": "Producto2_P9",
   "main": "server.js",
   "author": "FullNoders",
-  "type": "module",
   "scripts": {
     "start": "node server.js"
   },
@@ -18,6 +17,7 @@
   },
   "homepage": "https://github.com/FullNoders/P9#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pug": "^3.0.2"
   }
 }
