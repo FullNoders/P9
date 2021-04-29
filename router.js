@@ -44,8 +44,13 @@ function routerUrl(app){
         //res.type('text/html');
         //Funcion para renderizar plantillas desde vista
         //res.send(renderTemplate());
-        const content = renderTemplate();
-        pug.renderFile(content, {});
+        //const content = renderTemplate();
+        const content=pug.compileFile('views/home.pug');
+        const header=pug.compileFile('views/header.pug');
+        const footer=pug.compileFile('views/footer.pug');
+        const total = header({}) + content({}) + footer({});
+        res.send(total);
+        //pug.renderFile('views/home.pug', {});
       });
       
       //500
@@ -55,16 +60,13 @@ function routerUrl(app){
         res.status(500);
         res.send('500 - Server error');
       });
-
+      
       //404
       app.use((req,res) => {
         res.type('text/plain');
         res.status(404);
         res.send('404 - Not Found');
       });
-
-
-
 
 
       /*  switch (path) {
@@ -106,6 +108,11 @@ function routerUrl(app){
             res.end('Pagina 404');
             break;
     } */
+}
+
+//justo debajo de la función a exportar
+module.exports = {
+    "routerUrl": routerUrl
 }
 
 // Función para cargar archivos del servidor
