@@ -34,6 +34,11 @@ function routerUrl(app){
         const total = header({}) + content({}) + footer({});
         res.send(total);
     });
+    app.get('/room',(req,res)=>{
+        const content=pug.compileFile('views/room.pug');
+        const total = header({}) + content({}) + footer({});
+        res.send(total);
+    });
 
     app.use(express.static(__dirname + '/public'));
       

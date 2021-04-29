@@ -82,7 +82,7 @@ if (typeof(Storage) === "undefined") {
             active = "";
           }
           avataresHTML += '<div id="'+element.id+'" class="carousel-item'+active+'">';
-          avataresHTML += '<img src="'+element.img+'" class="d-block w-100" alt="'+element.turtle+'">';
+          avataresHTML += '<img src="'+element.img+'" class="d-block w-100 imgTurtle" alt="'+element.turtle+'">';
           avataresHTML += '</div>';
           document.getElementById('avataresHTML').innerHTML = avataresHTML;
         });
