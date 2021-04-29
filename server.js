@@ -37,7 +37,10 @@ app.get('/',(req,res)=>{
   //res.send(renderTemplate());
   //const content = renderTemplate();
   const content=pug.compileFile('views/home.pug');
-  res.send(content({}));
+  const header=pug.compileFile('views/header.pug');
+  const footer=pug.compileFile('views/footer.pug');
+  const total = header({}) + content({}) + footer({});
+  res.send(total);
   //pug.renderFile('views/home.pug', {});
 });
 
