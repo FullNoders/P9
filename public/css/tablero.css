@@ -44,8 +44,9 @@ body {
 
   .player{
     font-size:xx-large;
-    color:greenyellow;
+    color:indigo;
     margin-left: -50px;
+    z-index: 5;
     /* Que se mueva de 45px en 45px */
   }
   
@@ -86,7 +87,7 @@ body {
 #celda4{
     left: 150px;
     top:-180px;
-    background-color: greenyellow;
+   
 }
 
 #celda5{

@@ -12,6 +12,7 @@ const __dirname = dirname(__filename); */
 //export {routerUrl}
 const express = require('express');
 const pug = require('pug');
+const socketIO = require('socket.io');
 
 const header=pug.compileFile('views/header.pug');
 const footer=pug.compileFile('views/footer.pug');
@@ -41,6 +42,9 @@ function routerUrl(app){
     });
 
     app.use(express.static(__dirname + '/public'));
+
+
+    
       
       //500
     app.use((err, req, res, next) => {
