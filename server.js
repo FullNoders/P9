@@ -29,18 +29,24 @@ const io = require("socket.io")(server, {
 }); 
 
 
-/* io.sockets.on('Conected', (socket)=>{
+io.sockets.on('connection', (socket)=>{
   conexiones.push(socket);
-  socket.on('start',(data)=>{
+  console.log("key");
+  socket.on('key',(data)=>{
     console.log("Se ha conectado un usuario. Cantidad conexiones: "+conexiones.length);
   });
 });
 
- */
 
-io.on("connection", (socket) => {
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-});
+
+/*  io.on("key", (socket) => {
+  //console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
+  conexiones.push(socket);
+  console.log("key");
+  socket.on('start',(data)=>{
+    console.log("Se ha conectado un usuario. Cantidad conexiones: "+conexiones.length);
+  }); 
+});*/
 
 
 

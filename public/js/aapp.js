@@ -11,7 +11,11 @@ socket.onAny((event, ...args) => {
 
 const socket = io("ws://localhost:1338");
 
-socket.on("connect", () => {
+socket.emit("key", (answer)=>{
+    console.log("answer: "+answer);
+});
+
+/* socket.on("connect", () => {
     console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-    console.log("HOLA MUNDO SOCKETS");
-  });
+    
+}); */
