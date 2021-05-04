@@ -1,0 +1,114 @@
+body {
+    background: steelblue;
+    color: #eee;
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  #tablero {
+    margin-top: 50px;
+    background:
+    url(https://2.bp.blogspot.com/-EQ8Pr8T2zK8/T61FQ7XDLwI/AAAAAAAABok/On1J2Okyp9Y/s1600/fondo+2.png),  url(http://img.freepik.com/free-photo/wooden-texture_1160-686.jpg?size=338&amp;ext=jpg);
+    box-shadow: 0 10px 10px -6px rgba(0, 0, 0, .6);
+    border-radius: 3px;
+    border-collapse: collapse;
+    height: 400px;
+    width: 400px;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    
+  }
+  
+  #tablero:before,
+  #tablero:after {
+    font-size: 36px;
+    letter-spacing: 16px;
+    line-height: 50px;
+    position: absolute;
+    word-wrap: break-word;
+    left: 8px;
+    width: 400px;
+    
+  }
+  
+  #tablero:before {
+    
+    top: 0;
+    color: #9FADB0;
+    text-shadow: 1px 1px 1px rgba(255,223,58,.8);
+  }
+
+  .player{
+    font-size:xx-large;
+    color:greenyellow;
+    margin-left: -50px;
+    /* Que se mueva de 45px en 45px */
+  }
+  
+  #tablero:after {
+    content: "\265F \265F \265F \265F \265F \265F \265F \265F \265C \265E \265D \265A \265B \265D \265E \265C";
+    bottom: 0;
+    color: #3965FF;
+    text-shadow: 1px 1px 1px rgba(255,255,255,.8);
+  }
+
+  
+ .celda{
+    margin:0px;
+    position: relative;
+    width: 45px;
+    height: 45px  ;
+    z-index: 1;
+}
+
+ #celda1{
+      left: 4px;
+      top:-45px;
+      background-color: greenyellow;
+}
+ 
+#celda2{
+    left: 50px;
+    top:-90px;
+    background-color: greenyellow;
+}
+
+#celda3{
+    left: 100px;
+    top:-135px;
+    background-color: greenyellow;
+}
+
+#celda4{
+    left: 150px;
+    top:-180px;
+    background-color: greenyellow;
+}
+
+#celda5{
+    left: 200px;
+    top:-225px;
+    background-color: greenyellow;
+}
+
+#celda6{
+    left: 250px;
+    top:-270px;
+    background-color: greenyellow;
+}
+
+#celda7{
+    left: 300px;
+    top:-315px;
+    background-color: greenyellow;
+}
+
+#celda8{
+    left: 350px;
+    top:-360px;
+    background-color: greenyellow;
+}
