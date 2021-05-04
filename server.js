@@ -31,7 +31,7 @@ const io = require("socket.io")(server, {
 
 io.sockets.on('connection', (socket)=>{
   conexiones.push(socket);
-  console.log("key");
+  console.log("Estableció socket");
   socket.on('key',(data)=>{
     console.log("Se ha conectado un usuario. Cantidad conexiones: "+conexiones.length);
   });
