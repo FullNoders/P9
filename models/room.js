@@ -1,6 +1,6 @@
 function Room(id, name, players) {
     this.id = id;
-    this.name = name;
+    this.name = "Sala " . this.id;
     this.players = players;
     this.matriz = null;
     this.activePlayer = null;
