@@ -45,21 +45,17 @@ idParent=undefined;
     // D&D 
     function allowDrop(ev) {
       ev.preventDefault();
-      
     }
     
     function drag(ev) {
       ev.dataTransfer.setData("text", ev.target.id);
-      
-      
     }
 
     function drop(ev) {
       ev.preventDefault();
       var data = ev.dataTransfer.getData("text");
       //Evitamos arrastrar si hay una sala ya elegida
-      if(localStorage.getItem('room')==undefined){
-               
+      if(localStorage.getItem('room')==undefined){   
           ev.target.appendChild(document.getElementById(data));
           idParent=ev.target.id;
           //Guardamos la sala en Storage

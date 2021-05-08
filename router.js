@@ -6,7 +6,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export {getTemplate, renderTemplate, routerUrl}
+export {routerUrl}
 
 function getTemplate(template) {
     let value= fs.readFileSync(`${__dirname}/views/` + template + `.html`, 'utf8');
