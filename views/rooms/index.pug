@@ -2,13 +2,6 @@ extends ../layout
 
 block content
   h1= title
-  //- p Welcome to #{title}
-  //- ul
-  //- each room, key in rooms
-  //-   li
-  //-     a(href=`/rooms/${room.id}`) #{room.name}
-
-
   // Content here
   main.px-3
     p
@@ -26,7 +19,11 @@ block content
       .row.gy-5
         each room, key in rooms
           .col-6.parentRoom
-            #room1.p-3.border.bg-light.room(name='' ondrop='drop(event)' ondragover='allowDrop(event)')
-              p #{room.name}
+            if room.available
+              .p-3.border.bg-light.room(id='room'+room.id name='' ondrop='drop(event)' ondragover='allowDrop(event)')
+                p #{room.name}
+            else 
+              .p-3.border.bg-light.room
+                p #{room.name} NO DISPONIBLE
   // Funciones JS
   script(type='text/javascript' src='/javascripts/playFunctions.js')

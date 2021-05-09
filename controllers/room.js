@@ -1,4 +1,4 @@
-var db = require('./db');
+var db = require('../db');
 var rooms = db.rooms;
 
 exports.list = function(req, res){
