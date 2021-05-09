@@ -7,11 +7,16 @@ block content
     #carouselExampleIndicators.carousel(data-bs-ride='carousel')
       .carousel-indicators
         button.active(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
-        button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='1' aria-label='Slide 2')
-        button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='2' aria-label='Slide 3')
-        button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='3' aria-label='Slide 4')
-        button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='4' aria-label='Slide 5')
+        // Avatars
+        each avatar, index in avatars 
+          button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to=avatar.id aria-label=avatar.id)
       #avataresHTML.carousel-inner
+        #0.carousel-item.active
+          img.d-block.w-100(src='/images/0.png' alt='')
+        // Avatars
+        each avatar, index in avatars
+          .carousel-item(id=avatar.id)
+            img.d-block.w-100(src=avatar.image alt=avatar.name)
       button.carousel-control-prev(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev')
         span.carousel-control-prev-icon(aria-hidden='true')
         span.visually-hidden Previous

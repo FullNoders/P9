@@ -6,13 +6,11 @@ idParent=undefined;
       if(saveRoom =='1'||saveRoom=='2'||saveRoom=='3'||saveRoom=='4'){
         //alert("hay guardada una sala")
         var img = document.createElement('img');
-        let avatar = localStorage.getItem('avatar');
-        avatar = JSON.parse(avatar);
-        img.setAttribute('src',avatar.img);
-        let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.img+'" alt="'+avatar.turtle+'">';
+        img.setAttribute('src',avatar.image);
+        let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.image+'" alt="'+avatar.name+'">';
         document.getElementById(saveRoom).innerHTML += avatarHTML;
         document.getElementById('avatar').innerHTML='';
-        document.getElementById('parrafo').innerText='Todo listo para que '+avatar.turtle+' comience el juego';
+        document.getElementById('parrafo').innerText='Todo listo para que '+avatar.name+' comience el juego';
       }
       
       /* else{
@@ -31,11 +29,9 @@ idParent=undefined;
             let username = localStorage.getItem('username');
             document.getElementById('username').innerHTML = username;
             // Avatar de usuario
-            let avatar = localStorage.getItem('avatar');
-            avatar = JSON.parse(avatar);
-            let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.img+'" alt="'+avatar.turtle+'">';
+            let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.image+'" alt="'+avatar.name+'">';
             document.getElementById('avatar').innerHTML = avatarHTML;
-            document.getElementById('turtleName').innerHTML = avatar.turtle;
+            document.getElementById('turtleName').innerHTML = avatar.name;
         }
     } else {
         alert("tu navegador no soporta storage");

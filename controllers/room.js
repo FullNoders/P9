@@ -1,8 +1,19 @@
 var db = require('../db');
 var rooms = db.rooms;
+var avatars = db.avatars;
 
 exports.list = function(req, res){
-  res.render('rooms', { title: 'Salas', rooms: rooms });
+  // User Avatar
+  let userAvatarId = localStorage.getItem('avatar');
+  let avatar = avatares.find(obj => {
+    return obj.id == userAvatarId
+  });
+  
+  res.render('rooms', { 
+    title: 'Salas', 
+    rooms: rooms,
+    avatar: avatar
+  });
 };
 
 exports.load = function(req, res, next){
