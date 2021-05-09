@@ -3,7 +3,7 @@ idParent=undefined;
 
     window.onload = ()=>{
       saveRoom = localStorage.getItem('room');
-      if(saveRoom =='room1'||saveRoom=='room2'||saveRoom=='room3'||saveRoom=='room4'){
+      if(saveRoom =='1'||saveRoom=='2'||saveRoom=='3'||saveRoom=='4'){
         //alert("hay guardada una sala")
         var img = document.createElement('img');
         let avatar = localStorage.getItem('avatar');
@@ -55,13 +55,14 @@ idParent=undefined;
       ev.preventDefault();
       var data = ev.dataTransfer.getData("text");
       //Evitamos arrastrar si hay una sala ya elegida
-      if(localStorage.getItem('room')==undefined){   
+      //if(localStorage.getItem('room')==undefined){   
           ev.target.appendChild(document.getElementById(data));
           idParent=ev.target.id;
           //Guardamos la sala en Storage
           setSaveRoom(idParent);
-        
-      }
+          // Redirección
+          window.location.href = window.location.href + "/" + idParent;
+      //}
     }
 
     function setSaveRoom(idPar){

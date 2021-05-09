@@ -20,7 +20,7 @@ exports.load = function(req, res, next){
 
 exports.view = function(req, res){
   res.render('rooms/view', {
-    title: 'Sala ' + req.room.name,
+    title: req.room.name,
     room: req.room
   });
 };

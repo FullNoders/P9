@@ -2,5 +2,7 @@ extends ../layout
 
 block content
   h1= title
-  p Welcome to #{title}
-  p #{room.id}
+  if room.players != undefined
+    p Jugadores:
+    each player, key in rooms.players
+      p #{player.name}
