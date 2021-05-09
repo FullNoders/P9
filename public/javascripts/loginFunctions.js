@@ -92,7 +92,7 @@ if (typeof(Storage) === "undefined") {
         form.onsubmit = (e) => {
         e.preventDefault();
         if(setUserName()&&setAvatar()){
-          window.location.href = './play';
+          window.location.href = './rooms';
         }
       }
         

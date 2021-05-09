@@ -2,7 +2,7 @@ var db = require('./db');
 var rooms = db.rooms;
 
 exports.list = function(req, res){
-  res.render('rooms', { title: 'Rooms', rooms: rooms });
+  res.render('rooms', { title: 'Salas', rooms: rooms });
 };
 
 exports.load = function(req, res, next){
@@ -12,7 +12,7 @@ exports.load = function(req, res, next){
   if (req.room) {
     next();
   } else {
-    var err = new Error('cannot find room ' + id);
+    var err = new Error('No se ha encontrado la sala ' + id);
     err.status = 404;
     next(err);
   }
@@ -20,14 +20,14 @@ exports.load = function(req, res, next){
 
 exports.view = function(req, res){
   res.render('rooms/view', {
-    title: 'Viewing room ' + req.room.name,
+    title: 'Sala ' + req.room.name,
     room: req.room
   });
 };
 
 exports.edit = function(req, res){
   res.render('rooms/edit', {
-    title: 'Editing room ' + req.room.name,
+    title: 'Editar sala ' + req.room.name,
     room: req.room
   });
 };
