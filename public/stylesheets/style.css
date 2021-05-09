@@ -29,11 +29,17 @@
   background-color: #41464b;
 }
 
-/* Estilo para salas de juego */
+/* Estilo para rooms */
 .salas{
   color:black;
 }
 
 .room{
   height: 200px !important;
+}
+
+
+/* Estilo para room */
+.free{
+  background-color:aliceblue;
 }
