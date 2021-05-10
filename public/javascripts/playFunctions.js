@@ -1,3 +1,4 @@
+
 idParent=undefined;
     
 window.onload = ()=>{
@@ -40,12 +41,3 @@ function chooseRoom(roomId){
   window.location.href = window.location.href + "/" + roomId;
 }
 
-function clic(cell){
-  // slice de - para obtener fila y columna
-  // row
-  // col
-  // do something
-  // asignar clase del usuario en esa celda (añadir clase )
-  // hacer persistencia en la "base de datos" (hacer llamada a rooms/id/update con parámetro de id celda(row y col) e id de jugador)
-  // https://developer.mozilla.org/es/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
-}

@@ -13,6 +13,8 @@ var indexRouter = require('./routes/index.js');
 var roomsRouter = require('./routes/rooms.js');
 var closeRouter = require('./routes/close.js');
 
+var movement = require('./routes/movement.js');
+
 
 var app = express();
 var session = require('express-session');
@@ -45,8 +47,11 @@ app.use(function(req,res,next){
 
 //Initialize routes
 app.use('/', indexRouter);
+app.use('/move', movement);
 app.use('/rooms', roomsRouter);
 app.use('/close', closeRouter);
+
+
 
 
 

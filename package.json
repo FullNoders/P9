@@ -14,5 +14,9 @@
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
     "rxjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "node-loader": "^2.0.0",
+    "webpack": "^5.36.2"
   }
 }

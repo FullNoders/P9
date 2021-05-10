@@ -4,7 +4,7 @@ function Room(id){
     this.id = id;
     this.name = "Sala " + this.id;
     this.players = [];
-    this.matriz = null;
+    this.matriz = [];
     this.activePlayer = null;
     this.winner = null;
     this.startPlayer = null;
