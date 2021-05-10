@@ -15,6 +15,7 @@ block content
             img(src=avatar.image width="64")
           else
             input#inlineRadio1.form-check-input(type='radio' name='avatar' value=avatar.id required disabled)
+            img(src=avatar.image width="64")
           label.form-check-label(for='inlineRadio1') #{avatar.id}  
       input#username.w-100.form-control-lg(type='username' name="name" placeholder='Nombre de usuario' required)
       button.w-100.btn.btn-lg.btn-primary(type='submit') Continuar
