@@ -3,33 +3,20 @@ extends layout
 block content
   h1= title
   main.px-3
-    // Carousel
-    #carouselExampleIndicators.carousel(data-bs-ride='carousel')
-      .carousel-indicators
-        button.active(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
-        // Avatars
-        each avatar, index in avatars 
-          button(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to=avatar.id aria-label=avatar.id)
-      #avataresHTML.carousel-inner
-        #0.carousel-item.active
-          img.d-block.w-100(src='/images/0.png' alt='')
-        // Avatars
-        each avatar, index in avatars
-          .carousel-item(id=avatar.id)
-            img.d-block.w-100(src=avatar.image alt=avatar.name)
-      button.carousel-control-prev(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='prev')
-        span.carousel-control-prev-icon(aria-hidden='true')
-        span.visually-hidden Previous
-      button.carousel-control-next(type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide='next')
-        span.carousel-control-next-icon(aria-hidden='true')
-        span.visually-hidden Next
-      // End carousel
     // Formulario
-    form#formu(action='/rooms')
+    form#formu(action='/rooms' method="post")
       h3.h3.mb-3.fw-normal Selecciona tu avatar 
         br
         | y escribe tu nombre de usuario
-      input#username.w-100.form-control-lg(type='username' placeholder='Nombre de usuario')
+      each avatar, index in avatars
+        .form-check.form-check-inline
+          if avatar.available
+            input#inlineRadio1.form-check-input(type='radio' name='avatar' value=avatar.id required)
+            img(src=avatar.image width="64")
+          else
+            input#inlineRadio1.form-check-input(type='radio' name='avatar' value=avatar.id required disabled)
+          label.form-check-label(for='inlineRadio1') #{avatar.id}  
+      input#username.w-100.form-control-lg(type='username' name="name" placeholder='Nombre de usuario' required)
       button.w-100.btn.btn-lg.btn-primary(type='submit') Continuar
       p.mt-5.mb-3.text-muted ©2021
       // End Formulario

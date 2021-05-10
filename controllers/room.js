@@ -1,18 +1,26 @@
 var db = require('../db');
+const Player = require('../models/Player');
 var rooms = db.rooms;
+var players = db.players;
 var avatars = db.avatars;
 
 exports.list = function(req, res){
+  // User name
+  let name = req.body.name;
   // User Avatar
-  let userAvatarId = localStorage.getItem('avatar');
-  let avatar = avatares.find(obj => {
-    return obj.id == userAvatarId
+  let avatarId = req.body.avatar;
+  let avatar = avatars.find(obj => {
+    return obj.id == avatarId
   });
-  
+  avatar.available = false;
+  // Player 
+  player = new Player(new Date().valueOf(),name,avatar);
+  players.push(player);
+
   res.render('rooms', { 
     title: 'Salas', 
     rooms: rooms,
-    avatar: avatar
+    player: player
   });
 };
 

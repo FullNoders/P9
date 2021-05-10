@@ -3,7 +3,7 @@ if (typeof(Storage) === "undefined") {
     window.location.href = '/';           
   }  
     
-function setAvatar(){
+/* function setAvatar(){
   //guardamos avatar en storage
   var thisActive = document.getElementsByClassName('carousel-item active')[0];
         if (thisActive.id == 0){
@@ -22,7 +22,6 @@ function setUserName(){
   if (userName!=''){
     localStorage.setItem("username",userName);
     return true;
-
   }else{
     alert("introduce nombre de usuario");
     return false;
@@ -43,8 +42,15 @@ window.onload = function(){
   form.onsubmit = (e) => {
   e.preventDefault();
   if(setUserName()&&setAvatar()){
+
     window.location.href = './rooms';
+    var url = '/rooms' + Username;
+    var form = $('<form action="' + url + '" method="post">' +
+      '<input type="text" name="api_url" value="' + Return_URL + '" />' +
+      '</form>');
+    $('body').append(form);
+    form.submit();
   }
 }
   
-}//onload
+}//onload */

@@ -3,7 +3,7 @@ var router = express.Router();
 var room = require('../controllers/room');
 /* GET rooms listing. */
 
-router.get('/', room.list);
+router.all('/', room.list);
 router.all('/:id/:op?', room.load);
 router.get('/:id', room.view);
 router.get('/:id/view', room.view);

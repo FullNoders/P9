@@ -1,8 +1,7 @@
-function Avatar(id, image, name, color) {
+function Avatar(id, image) {
     this.id = id;
     this.image = image;
-    this.name = name;
-    this.color = color;
+    this.available = true;
 
     this.getId = function() {
         return this.id;
@@ -18,21 +17,12 @@ function Avatar(id, image, name, color) {
         this.image = image;
     }
 
-    this.getName = function() {
-        return this.name;
+    this.getAvailable = function() {
+        return this.available;
     }
-    this.setName = function(name) {
-        this.name = name;
+    this.setAvailable = function(available) {
+        this.available = available;
     }
-
-    this.getColor = function(){
-        return this.color;
-    }
-    this.setColor = function(){
-        this.color = color;
-    }
-
-
 }
 
 

@@ -19,8 +19,11 @@ idParent=undefined;
       
     }
     
-    if (typeof(Storage) !== "undefined") {
-        // Code for localStorage/localStorage.
+    if (typeof(Storage) === "undefined") {
+        alert("tu navegador no soporta storage");
+        window.location.href = '/';
+    }
+/*         // Code for localStorage/localStorage.
         if (localStorage.getItem("username")===null){
         //no esta definido
         window.location.href = './login';
@@ -32,11 +35,8 @@ idParent=undefined;
             let avatarHTML = '<img style="width:128px;height:128px;" id="avatarImg" draggable="true" ondragstart="drag(event)" src="'+avatar.image+'" alt="'+avatar.name+'">';
             document.getElementById('avatar').innerHTML = avatarHTML;
             document.getElementById('turtleName').innerHTML = avatar.name;
-        }
-    } else {
-        alert("tu navegador no soporta storage");
-        window.location.href = '/';
-    }
+        } */
+    
 
     // D&D 
     function allowDrop(ev) {
