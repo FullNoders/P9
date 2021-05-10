@@ -6,10 +6,11 @@ block content
     p Jugadores:
     ul
     each player, key in room.players
-      li
+      li(id=player.id)
         img(src=player.avatar.image width="32") 
         | #{player.name}
-
+        if player.id == user.player.id      
+          |  (Tú)
   table.table.table-bordered
     tbody
       tr

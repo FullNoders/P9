@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   resave: true, // if false don't save session if unmodified
   saveUninitialized: false, // if false don't create session until something stored
-  secret: new Date().valueOf().toString()
+  secret: "a saber para que sirve"
 }));
 
 // variable de usuario para plantillas de vista

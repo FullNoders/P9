@@ -6,7 +6,8 @@ var avatars = db.avatars;
 
 
 exports.list = function(req, res){
-  console.log(req.session.player);
+  console.log("session");
+  console.log(req.session);
   if(req.method == "POST" && req.body.name && req.body.avatar && !req.session.player){
     console.log("a1");
     // User name
@@ -18,7 +19,7 @@ exports.list = function(req, res){
     });
     avatar.available = false;
     // Player 
-    player = new Player(req.session.secret,name,avatar);
+    player = new Player(new Date().valueOf(),name,avatar);
     req.session.player = player;
     players.push(player);
   }else if(!req.session.player){
@@ -27,16 +28,14 @@ exports.list = function(req, res){
   }else if(req.session.player.room){
     console.log("a3");
     // quitar jugador de la partida que tenga en curso
-    const index = rooms[req.session.player.room-1].players.map(e => e.id).indexOf(req.session.player.id);
+    const index = rooms[req.session.player.room-1].players.map(e => e.id).indexOf(req.session.secret);
     rooms[req.session.player.room-1].players.splice(index, 1);
-    //req.session.player.room = null;
-    player = req.session.player;
-    player.room = null;
+    req.session.player.room = null;
   }
   res.render('rooms', { 
     title: 'Salas', 
     rooms: rooms,
-    player: player
+    player: req.session.player
   });
 };
 
@@ -57,9 +56,17 @@ exports.view = function(req, res){
     res.redirect('/');
   }
   if(!req.session.player.room){
+    if(!req.room.available){
+      res.redirect('/');
+    }
     // Add player to room
     req.session.player.room = req.room.id;
     req.room.players.push(req.session.player);
+    if(req.room.length == 3){
+      req.room.available = false;
+    }
+  }else if(req.session.player.room != req.room.id){
+    res.redirect('/');
   }
 
 // Test observable
@@ -75,7 +82,7 @@ itemsOverTime$.subscribe(([time, val]) => {
   console.log(val);
 }); */
 // Fin test observable
-
+  console.log(req.session.player);
   res.render('rooms/view', {
     title: req.room.name,
     room: req.room
