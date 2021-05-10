@@ -6,6 +6,7 @@ function Player(id, name, avatar) {
     this.percentageWin = 0;
     this.ready = false;
     this.position = null;
+    this.room = null;
 
     this.getId = function() {
         return this.id;
@@ -54,6 +55,13 @@ function Player(id, name, avatar) {
     }
     this.setPosition = function(position) {
         this.position = position;
+    }
+
+    this.getRoom = function() {
+        return this.room;
+    }
+    this.setRoom = function(room) {
+        this.room = room;
     }
 
 }

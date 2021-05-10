@@ -13,6 +13,8 @@ var indexRouter = require('./routes/index');
 var roomsRouter = require('./routes/rooms');
 
 var app = express();
+var session = require('express-session');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +25,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// session
+app.use(session({
+  resave: true, // if false don't save session if unmodified
+  saveUninitialized: true, // if false don't create session until something stored
+  secret: new Date().valueOf().toString()
+}));
 
 //Initialize routes
 app.use('/', indexRouter);

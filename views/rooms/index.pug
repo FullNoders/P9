@@ -6,13 +6,12 @@ block content
   main.px-3
     p
       | Hola 
-      span#username
+      span#username #{player.name}
       | ,
     p#parrafo
-      | Arrastra a 
-      span#turtleName
-      |  a una sala para jugar
-    #player.avatar
+      | Arrastra a tu avatar a una sala para jugar
+    #avatar
+      img#avatarImg(style='width:128px;height:128px;' draggable='true' ondragstart='drag(event)' src=player.avatar.image alt=player.avatar.id)
     br
     // Salas
     .container.overflow-hidden.salas

@@ -14,7 +14,8 @@ exports.list = function(req, res){
   });
   avatar.available = false;
   // Player 
-  player = new Player(new Date().valueOf(),name,avatar);
+  player = new Player(req.session.secret,name,avatar);
+  req.session.player = player;
   players.push(player);
 
   res.render('rooms', { 
@@ -38,6 +39,9 @@ exports.load = function(req, res, next){
 };
 
 exports.view = function(req, res){
+  // Add player to room
+  req.session.player.room = req.room.id;
+  req.room.players.push(req.session.player);
   res.render('rooms/view', {
     title: req.room.name,
     room: req.room

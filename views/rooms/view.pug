@@ -4,8 +4,11 @@ block content
   h1= title
   if room.players != undefined
     p Jugadores:
-    each player, key in rooms.players
-      p #{player.name}
+    ul
+    each player, key in room.players
+      li
+        img(src=player.avatar.image width="32") 
+        | #{player.name}
 
   table.table.table-bordered
     tbody
