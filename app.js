@@ -3,14 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const port = 1338;
 
 //Models
 //var Room = require('./models/room');
 
 //Routes
-var indexRouter = require('./routes/index');
-var roomsRouter = require('./routes/rooms');
-var closeRouter = require('./routes/close');
+var indexRouter = require('./routes/index.js');
+var roomsRouter = require('./routes/rooms.js');
+var closeRouter = require('./routes/close.js');
 
 
 var app = express();
@@ -63,6 +64,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(port,()=>{
+  console.log(`Escuchando en localhost:${port}`);
 });
 
 module.exports = app;
