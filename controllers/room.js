@@ -62,7 +62,7 @@ exports.view = function(req, res){
     // Add player to room
     req.session.player.room = req.room.id;
     req.room.players.push(req.session.player);
-    if(req.room.length == 3){
+    if(req.room.players.length == 3){
       req.room.available = false;
     }
   }else if(req.session.player.room != req.room.id){
