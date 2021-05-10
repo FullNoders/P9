@@ -6,7 +6,9 @@ var avatars = db.avatars;
 
 
 exports.list = function(req, res){
-  if(req.method == "POST"){
+  console.log(req.session.player);
+  if(req.method == "POST" && req.body.name && req.body.avatar && !req.session.player){
+    console.log("a1");
     // User name
     let name = req.body.name;
     // User Avatar
@@ -19,12 +21,17 @@ exports.list = function(req, res){
     player = new Player(req.session.secret,name,avatar);
     req.session.player = player;
     players.push(player);
-  }else if(req.session.player){
-    // quitar jugador de la partida que tenga en curso
-    req.session.player.room = null;
-    player = req.session.player;
-  }else{
+  }else if(!req.session.player){
+    console.log("a2");
     res.redirect('/');
+  }else if(req.session.player.room){
+    console.log("a3");
+    // quitar jugador de la partida que tenga en curso
+    const index = rooms[req.session.player.room-1].players.map(e => e.id).indexOf(req.session.player.id);
+    rooms[req.session.player.room-1].players.splice(index, 1);
+    //req.session.player.room = null;
+    player = req.session.player;
+    player.room = null;
   }
   res.render('rooms', { 
     title: 'Salas', 
@@ -35,7 +42,6 @@ exports.list = function(req, res){
 
 exports.load = function(req, res, next){
   var id = req.params.id;
-  console.log(id);
   req.room = rooms[id-1];
   if (req.room) {
     next();

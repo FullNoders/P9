@@ -6,7 +6,7 @@ var avatars = db.avatars;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if(req.session.player){
+  if(req.session.player && req.session.player != null){
     res.redirect('/rooms');
   }
   res.render('index', { 
