@@ -7,9 +7,7 @@ block content
     p
       | Hola 
       span#username #{player.name}
-      | ,
-    p#parrafo
-      | Arrastra a tu avatar a una sala para jugar
+      | . Arrastra tu avatar a una sala para jugar.
     #avatar
       img#avatarImg(style='width:128px;height:128px;' draggable='true' ondragstart='drag(event)' src=player.avatar.image alt=player.avatar.id)
     br

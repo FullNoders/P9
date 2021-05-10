@@ -11,7 +11,6 @@ window.onload = ()=>{
     document.getElementById('avatar').innerHTML='';
     document.getElementById('parrafo').innerText='Todo listo para que '+avatar.name+' comience el juego';
   }     
-  
 }
 
 if (typeof(Storage) === "undefined") {

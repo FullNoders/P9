@@ -1,9 +1,5 @@
 function deleteStorage(){
-    localStorage.removeItem('username');
-    localStorage.removeItem('avatar');
-    localStorage.removeItem('room');
-    alert("Tus datos han sido borrados")
-    window.location.href = '/';
+    window.location.href = '/borrar';
 }
 
 // Si hay datos en local storage habilitamos la función de borrado de datos

@@ -5,19 +5,26 @@ var players = db.players;
 var avatars = db.avatars;
 
 exports.list = function(req, res){
-  // User name
-  let name = req.body.name;
-  // User Avatar
-  let avatarId = req.body.avatar;
-  let avatar = avatars.find(obj => {
-    return obj.id == avatarId
-  });
-  avatar.available = false;
-  // Player 
-  player = new Player(req.session.secret,name,avatar);
-  req.session.player = player;
-  players.push(player);
-
+  if(req.method == "POST"){
+    // User name
+    let name = req.body.name;
+    // User Avatar
+    let avatarId = req.body.avatar;
+    let avatar = avatars.find(obj => {
+      return obj.id == avatarId
+    });
+    avatar.available = false;
+    // Player 
+    player = new Player(req.session.secret,name,avatar);
+    req.session.player = player;
+    players.push(player);
+  }else if(req.session.player){
+    // quitar jugador de la partida que tenga en curso
+    req.session.player.room = null;
+    player = req.session.player;
+  }else{
+    res.redirect('/');
+  }
   res.render('rooms', { 
     title: 'Salas', 
     rooms: rooms,
@@ -39,9 +46,14 @@ exports.load = function(req, res, next){
 };
 
 exports.view = function(req, res){
-  // Add player to room
-  req.session.player.room = req.room.id;
-  req.room.players.push(req.session.player);
+  if(!req.session.player){
+    res.redirect('/');
+  }
+  if(!req.session.player.room){
+    // Add player to room
+    req.session.player.room = req.room.id;
+    req.room.players.push(req.session.player);
+  }
   res.render('rooms/view', {
     title: req.room.name,
     room: req.room

@@ -20,9 +20,11 @@ html.h-100(xmlns='http://www.w3.org/1999/xhtml' lang='es')
     .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
       header.mb-auto
         div
-          h3.float-md-start.mb-0 FullNoders
+          h3.float-md-start.mb-0
+                  a(href='/') FullNoders
           nav.nav.nav-masthead.justify-content-center.float-md-end
-            a.nav-link(aria-current='page' href='/') Jugar
+            if user.player
+              a.nav-link(aria-current='page' href='/close') Cerrar sesión
       // Content
       block content
       // Footer

@@ -9,8 +9,9 @@ var logger = require('morgan');
 
 //Routes
 var indexRouter = require('./routes/index');
-//var roomsRouter = require('./routes/rooms')(Room);
 var roomsRouter = require('./routes/rooms');
+var closeRouter = require('./routes/close');
+
 
 var app = express();
 var session = require('express-session');
@@ -29,13 +30,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 // session
 app.use(session({
   resave: true, // if false don't save session if unmodified
-  saveUninitialized: true, // if false don't create session until something stored
+  saveUninitialized: false, // if false don't create session until something stored
   secret: new Date().valueOf().toString()
 }));
+
+// variable de usuario para plantillas de vista
+app.use(function(req,res,next){
+  if(req.session){
+    res.locals.user = req.session;
+  }
+  next();
+});
 
 //Initialize routes
 app.use('/', indexRouter);
 app.use('/rooms', roomsRouter);
+app.use('/close', closeRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
