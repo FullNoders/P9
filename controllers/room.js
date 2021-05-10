@@ -28,7 +28,7 @@ exports.list = function(req, res){
   }else if(req.session.player.room){
     console.log("a3");
     // quitar jugador de la partida que tenga en curso
-    const index = rooms[req.session.player.room-1].players.map(e => e.id).indexOf(req.session.secret);
+    const index = rooms[req.session.player.room-1].players.map(e => e.id).indexOf(req.session.player.id);
     rooms[req.session.player.room-1].players.splice(index, 1);
     req.session.player.room = null;
   }

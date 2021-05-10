@@ -7,8 +7,8 @@ router.all('/', room.list);
 router.all('/:id/:op?', room.load);
 router.get('/:id', room.view);
 router.get('/:id/view', room.view);
-router.get('/:id/edit', room.edit);
-router.put('/:id/edit', room.update);
+//router.get('/:id/edit', room.edit);
+//router.put('/:id/update', room.update);
 
 module.exports = router;
 
