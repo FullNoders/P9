@@ -19,8 +19,18 @@ block content
             if room.available
               .p-3.border.bg-light.room(id=room.id name='' onclick='chooseRoom(this.id)' ondrop='drop(event)' ondragover='allowDrop(event)')
                 p #{room.name}
+                ul 
+                  each player in room.players 
+                    li
+                      img(src=player.avatar.image width="32") 
+                      | #{player.name}             
             else 
               .p-3.border.bg-light.room
                 p #{room.name} NO DISPONIBLE
+                  ul 
+                  each player in room.players 
+                    li
+                      img(src=player.avatar.image width="32") 
+                      | #{player.name}    
   // Funciones JS
   script(type='text/javascript' src='/javascripts/playFunctions.js')
