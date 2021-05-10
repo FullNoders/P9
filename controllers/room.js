@@ -4,6 +4,7 @@ var rooms = db.rooms;
 var players = db.players;
 var avatars = db.avatars;
 
+
 exports.list = function(req, res){
   if(req.method == "POST"){
     // User name
@@ -54,6 +55,21 @@ exports.view = function(req, res){
     req.session.player.room = req.room.id;
     req.room.players.push(req.session.player);
   }
+
+// Test observable
+/* const Rx = require('rxjs');
+const RxOp = require('rxjs/operators');
+
+const interval$ = Rx.interval(1000);
+const items$ = Rx.from(req.room.players);
+
+const itemsOverTime$ = Rx.zip(interval$, items$).pipe(RxOp.repeat());
+
+itemsOverTime$.subscribe(([time, val]) => {
+  console.log(val);
+}); */
+// Fin test observable
+
   res.render('rooms/view', {
     title: req.room.name,
     room: req.room
