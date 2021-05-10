@@ -22,6 +22,5 @@ avatars.push( new Avatar(8,'/images/8.png'));
 avatars.push( new Avatar(9,'/images/9.png'));
 avatars.push( new Avatar(10,'/images/10.png'));
 
-rooms[1].available = false;
 // rooms.push({ name: 'TJ', pets: [pets[0], pets[1], pets[2]], id: 0  });
 
