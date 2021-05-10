@@ -7,7 +7,7 @@ block content
     p
       | Hola 
       span#username #{player.name}
-      | . Arrastra tu avatar a una sala para jugar.
+      | . Arrastra tu avatar o pulsa una sala para jugar.
     #avatar
       img#avatarImg(style='width:128px;height:128px;' draggable='true' ondragstart='drag(event)' src=player.avatar.image alt=player.avatar.id)
     br
@@ -17,7 +17,7 @@ block content
         each room, key in rooms
           .col-6.parentRoom
             if room.available
-              .p-3.border.bg-light.room(id=room.id name='' ondrop='drop(event)' ondragover='allowDrop(event)')
+              .p-3.border.bg-light.room(id=room.id name='' onclick='chooseRoom(this.id)' ondrop='drop(event)' ondragover='allowDrop(event)')
                 p #{room.name}
             else 
               .p-3.border.bg-light.room

@@ -35,3 +35,7 @@ function drop(ev) {
   // Redirección
   window.location.href = window.location.href + "/" + idParent;
 }
+
+function chooseRoom(roomId){
+  window.location.href = window.location.href + "/" + roomId;
+}
