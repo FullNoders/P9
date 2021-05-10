@@ -3,7 +3,10 @@ extends ../layout
 block content
   h1= title
   if room.players != undefined
-    p Jugadores:
+    if room.available
+      p Esperando jugadores...
+    else 
+      p En juego. Conectados:
     ul
     each player, key in room.players
       li(id=player.id)
@@ -11,25 +14,30 @@ block content
         | #{player.name}
         if player.id == user.player.id      
           |  (Tú)
+        if player.id == room.players[room.activePlayer].id && !room.available
+          |  # TURNO ACTUAL #
   table.table.table-bordered
     tbody
-      tr
-        td#a-1.table-light(onclick="clic(this.id)") Example
-        td#a-2.table-light Example
-        td#a-3.table-light Example
-        td#a-4.table-light Example
-      tr
-        td#a-1.table-light Example
-        td#a-2.table-light Example
-        td#a-3.table-light Example
-        td#a-4.table-light Example
-      tr
-        td#a1.table-light Example
-        td#a2.table-light Example
-        td#a3.table-light Example
-        td#a4.table-light Example
-      tr
-        td#a1.table-light Example
-        td#a2.table-light Example
-        td#a3.table-light Example
-        td#a4.table-light Example
+      each row, index in room.matriz
+        tr
+          each col, index2 in row
+            if !room.available && (room.players[room.activePlayer].id == user.player.id)
+              if !col
+                td.table-light(id=index+'-'+index2 onclick="conquer(this.id)" class='cellboard clicable')
+                  if col 
+                    img(width="64px" height="64px" src='/images/'+col+'.png')
+              else 
+                td.table-light(id=index+'-'+index2 class='cellboard')
+                  if col 
+                    img(width="64px" height="64px" src='/images/'+col+'.png')
+            else  
+              td.table-light(id=index+'-'+index2 class='cellboard')
+                if col
+                  img(width="64px" height="64px" src='/images/'+col+'.png')
+  // Funciones JS
+  script(type='text/javascript' src='/javascripts/roomFunctions.js')
+  if player.id != room.players[room.activePlayer].id || room.available
+    script.
+      setTimeout(function() {
+      window.location.href = window.location;
+      }, 4000);

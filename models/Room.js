@@ -4,11 +4,11 @@ function Room(id){
     this.id = id;
     this.name = "Sala " + this.id;
     this.players = [];
-    this.matriz = null;
-    this.activePlayer = null;
+    this.matriz = Array.from(Array(5), () => new Array(5));
+    this.activePlayer = 0;
     this.winner = null;
     this.startPlayer = null;
-    this.turn = null;
+    this.turn = 0;
     this.available = true;
 
     this.getId = function() {

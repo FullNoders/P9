@@ -1,4 +1,5 @@
 //import 'data base'
+const session = require('express-session');
 var db = require('../db');
 //import model player
 const Player = require('../models/Player');
@@ -128,14 +129,24 @@ exports.edit = function(req, res){
 exports.update = function(req, res){
   // Normally you would handle all kinds of
   // validation and save back to the db
-  var room = req.body.room;
   // recogemos parámetros de la request
-  // let row = req.body.row
-  // let col = req.body.col
-  // let playerId = req.body.playerId
+  let row = req.body.row;
+  let col = req.body.col;
+  console.log(row);
+  console.log(col);    
   // guardamos datos de movimiento
-  //room.matriz[row][col] = playerId
-  req.room.name = room.name;
-  req.room.email = room.email;
-  res.redirect('back');
+  req.session.player.position = row+"-"+col;
+  var id = req.params.id;
+  console.log(id);
+  req.room = rooms[id-1];
+  req.room.matriz[row][col] = req.session.player.avatar.id;
+  req.room.turn++;
+  if(req.room.activePlayer == 2){
+    req.room.activePlayer = 0;
+  }else{
+    req.room.activePlayer++;
+  }
+  // devolvemos id usuario
+  res.end(JSON.stringify({room:req.room,player:req.session.player}));
+  // res.redirect('back');
 };

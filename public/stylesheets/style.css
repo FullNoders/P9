@@ -18,6 +18,12 @@
   cursor:pointer;
 }
 
-.free{
+.cellboard{
   background-color:aliceblue;
+  width:64px;
+  height:64px;
+}
+
+.clicable{
+  cursor:pointer;
 }
