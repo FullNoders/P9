@@ -10,11 +10,8 @@ var avatars = db.avatars;
 
 //llamada desde routes/room. Para la raiz (/) desde cualquier petición http (all) 
 exports.list = function(req, res){
-  console.log("session");
-  console.log(req.session);
   //Si la petición es post Y si tenemos username y avatar váidos Y si no tenemos guardada en sesión el player
   if(req.method == "POST" && req.body.name && req.body.avatar && !req.session.player){
-    //console.log("a1");
     // User name: La respuesta con el username es guardada en esta variable
     let name = req.body.name;
     // User Avatar
@@ -34,11 +31,9 @@ exports.list = function(req, res){
     players.push(player);
   //Si resulta que no tenemos sesion de player enviamos al usuario al home (para evitar fallos)  
   }else if(!req.session.player){
-    //console.log("a2");
     res.redirect('/');
   //Si resulta que el player ya tenía una sala asignada... (pero salío)
   }else if(req.session.player.room){
-    //console.log("a3");
     // quitar jugador de la partida que tenga en curso
     //guardamos el índice del array rooms donde esté ese player
     const index = rooms[req.session.player.room-1].players.map(e => e.id).indexOf(req.session.player.id);
@@ -109,7 +104,6 @@ itemsOverTime$.subscribe(([time, val]) => {
   console.log(val);
 }); */
 // Fin test observable
-  console.log(req.session.player);
   //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
   res.render('rooms/view', {
     title: req.room.name,
@@ -131,22 +125,70 @@ exports.update = function(req, res){
   // validation and save back to the db
   // recogemos parámetros de la request
   let row = req.body.row;
-  let col = req.body.col;
-  console.log(row);
-  console.log(col);    
+  let col = req.body.col;  
   // guardamos datos de movimiento
   req.session.player.position = row+"-"+col;
   var id = req.params.id;
-  console.log(id);
   req.room = rooms[id-1];
   req.room.matriz[row][col] = req.session.player.avatar.id;
   req.room.turn++;
+
+  // Hay ganador?
+  // Condición para ganar
+  if(gameboardFull(req.room.matriz)){
+    req.room.winner = whoWin(req.room.matriz,req.room.players);
+  }
+  // req.room.winner = req.room.activePlayer;
   if(req.room.activePlayer == 2){
     req.room.activePlayer = 0;
   }else{
     req.room.activePlayer++;
   }
+  // destruir casillero
+  if(req.room.turn%5 == 0){
+    randomrow = Math.round(getRandomArbitrary(0,4));
+    randomcol = Math.round(getRandomArbitrary(0,4));
+    req.room.matriz[randomrow][randomcol] = 11;
+  }
   // devolvemos id usuario
   res.end(JSON.stringify({room:req.room,player:req.session.player}));
   // res.redirect('back');
 };
+
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function gameboardFull(matriz){
+  for(i=0; i<matriz.length; i++){
+    for(j=0; j<matriz[i].length; j++){
+      if(!matriz[i][j]){
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function whoWin(matriz, players){
+  console.log(players);
+  let playerCells = {};
+  for(i=0; i<matriz.length; i++){
+    for(j=0; j<matriz[i].length; j++){
+        playerAvatar = matriz[i][j];
+        if(playerAvatar && playerAvatar != 11){
+          console.log(playerAvatar);
+          index = players.map(e => e.avatar.id).indexOf(playerAvatar);
+          console.log(index);
+          playerId = players[index].id;
+          if(!playerCells[playerId]){
+            playerCells[playerId] = 0;
+          }
+          playerCells[playerId]++; 
+      }
+    }
+  }
+  winnerPlayerId = Object.keys(playerCells).reduce((a, b) => playerCells[a] > playerCells[b] ? a : b);
+  return winnerPlayerId;
+}

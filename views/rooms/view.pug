@@ -16,28 +16,33 @@ block content
           |  (Tú)
         if player.id == room.players[room.activePlayer].id && !room.available
           |  # TURNO ACTUAL #
-  table.table.table-bordered
-    tbody
-      each row, index in room.matriz
-        tr
-          each col, index2 in row
-            if !room.available && (room.players[room.activePlayer].id == user.player.id)
-              if !col
-                td.table-light(id=index+'-'+index2 onclick="conquer(this.id)" class='cellboard clicable')
-                  if col 
-                    img(width="64px" height="64px" src='/images/'+col+'.png')
-              else 
+  if !room.available && room.winner
+    each player,index in room.players
+      if player.id == room.winner
+        p El ganador es #{player.name}   
+  else     
+    table.table.table-bordered
+      tbody
+        each row, index in room.matriz
+          tr
+            each col, index2 in row
+              if !room.available && (room.players[room.activePlayer].id == user.player.id)
+                if !col
+                  td.table-light(id=index+'-'+index2 onclick="conquer(this.id)" class='cellboard clicable')
+                    if col 
+                      img(width="64px" height="64px" src='/images/'+col+'.png')
+                else 
+                  td.table-light(id=index+'-'+index2 class='cellboard')
+                    if col 
+                      img(width="64px" height="64px" src='/images/'+col+'.png')
+              else  
                 td.table-light(id=index+'-'+index2 class='cellboard')
-                  if col 
+                  if col
                     img(width="64px" height="64px" src='/images/'+col+'.png')
-            else  
-              td.table-light(id=index+'-'+index2 class='cellboard')
-                if col
-                  img(width="64px" height="64px" src='/images/'+col+'.png')
-  // Funciones JS
-  script(type='text/javascript' src='/javascripts/roomFunctions.js')
-  if player.id != room.players[room.activePlayer].id || room.available
-    script.
-      setTimeout(function() {
-      window.location.href = window.location;
-      }, 4000);
+    // Funciones JS
+    script(type='text/javascript' src='/javascripts/roomFunctions.js')
+    if user.player.id != room.players[room.activePlayer].id || room.available
+      script.
+        setTimeout(function() {
+          location.reload();
+        }, 4000);
