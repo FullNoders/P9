@@ -1,5 +1,3 @@
-const { rooms } = require("../db");
-
 function Room(id){
     this.id = id;
     this.name = "Sala " + this.id;

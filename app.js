@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const port = 1338;
+//const port = 1338;
 
 //Models
 //var Room = require('./models/room');
@@ -12,6 +12,7 @@ const port = 1338;
 var indexRouter = require('./routes/index.js');
 var roomsRouter = require('./routes/rooms.js');
 var closeRouter = require('./routes/close.js');
+var apiRouter = require('./routes/api.js');
 
 
 var app = express();
@@ -47,7 +48,7 @@ app.use(function(req,res,next){
 app.use('/', indexRouter);
 app.use('/rooms', roomsRouter);
 app.use('/close', closeRouter);
-
+app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler
@@ -66,8 +67,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(port,()=>{
+/* app.listen(port,()=>{
   console.log(`Escuchando en localhost:${port}`);
-});
+}); */
 
 module.exports = app;
