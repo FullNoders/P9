@@ -28,11 +28,30 @@ function conquer(cell){
                 console.log(res);
                 let room = res.room;
                 let player = res.player;
-                window.location.reload();
+                //socket.emit('conquer', json);
             } else {
                 console.error(res);
             }        
         };
         xhr.send(json);
-    }, 600);    
+    }, 600);  
   }
+
+/* Esperando aviso de fin de turno */ 
+socket.on('start', function(msg) {
+    // Refrescamos pantalla
+    window.location.reload();
+});
+
+/* Esperando aviso de fin de turno */ 
+socket.on('next', function(msg) {
+    // Refrescamos pantalla
+    window.location.reload();
+});
+
+/* Esperando aviso de jugador abandonando juego */ 
+/* socket.on('desertor', function(msg) {
+    // Refrescamos pantalla
+    alert("Un jugador ha abandonado la partida. El juego se dará por finalizado.");
+    window.location.href = "/";
+}); */

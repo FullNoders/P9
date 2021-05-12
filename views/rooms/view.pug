@@ -39,10 +39,14 @@ block content
                 td.table-light(id=index+'-'+index2 class='cellboard')
                   if col
                     img(width="64px" height="64px" src='/images/'+col+'.png')
-    // Funciones JS
+    // Socket io
+    script(src='/socket.io/socket.io.js')
+    script.
+      var socket = io();
+    // Funciones JS  
     script(type='text/javascript' src='/javascripts/roomFunctions.js')
-    if user.player.id != room.players[room.activePlayer].id || room.available
-      script.
-        setTimeout(function() {
-          location.reload();
-        }, 4000);
+    //- if user.player.id != room.players[room.activePlayer].id || room.available
+    //-   script.
+    //-     setTimeout(function() {
+    //-       location.reload();
+    //-     }, 4000);

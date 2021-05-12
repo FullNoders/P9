@@ -1,6 +1,7 @@
 //import 'data base'
 const session = require('express-session');
 var db = require('../db');
+
 //import model player
 const Player = require('../models/Player');
 // variables donde rescatamos los valores de la 'base de datos'
@@ -82,9 +83,26 @@ exports.view = function(req, res){
     req.session.player.room = req.room.id;
       //anyadimos la sesión de player al array players de la request
     req.room.players.push(req.session.player);
+    
+    // Añadimos usuario a la sala
+    io.on('connection', (socket) => {
+      // Usuario conectado
+      console.log('a user connected');
+      // añadimos usuario al grupo de la sala
+      socket.join(req.room.id);
+      // Usuario desconectado
+     /*  socket.on('disconnect', () => {
+        console.log('user disconnected');
+        // sending to all clients in 'game' room(channel) except sender
+        socket.broadcast.to(req.room.id).emit('desertor');
+      }); */
+    });
+    
     if(req.room.players.length == 3){
       //Si la cantidad de player es igual a tres, la sala se bloquea (mediante pug)
       req.room.available = false;
+      // Avisamos de que comienza la partida
+      io.in(req.room.id).emit('start', { start: true}); // This will emit the event to all connected sockets
     }
   //Si sesion de player sí está definida y la room-id de la request no es la room de la session de player
   }else if(req.session.player.room != req.room.id){
@@ -152,6 +170,7 @@ exports.update = function(req, res){
   }
   // devolvemos id usuario
   res.end(JSON.stringify({room:req.room,player:req.session.player}));
+  io.in(req.room.id).emit('next');
   // res.redirect('back');
 };
 
