@@ -1,8 +1,8 @@
 # P9 Producto 3
 
 ## Dependencias
-npm install express-session
-npm install socket.io
+- npm install express-session
+- npm install socket.io
 
 ## Ejecución
 node bin/www
