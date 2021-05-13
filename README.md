@@ -1,36 +1,41 @@
 # P9
 
-# Dependencias
+## Dependencias
 npm install express-session
 npm install socket.io
 
-# Ejecución
+## Ejecución
 node bin/www
 
-# Uso
+## Uso
 https://localhost:3000
 
-# App
+## App
 /app.js
 
-# Server
+## Server
 /bin/www
 
-# Rutas
+## Rutas
 /routes
 
-# Modelos
+## Modelos
 /models
 
-# Vistas
+## Vistas
 /views
 
-# Controladores (/controllers)
+## Controladores
 /controllers
 
-# Base de datos simulada
+## Base de datos simulada
 /db.js
 
-# Public
+## Public
 /public
 
+### Imágenes
+/public/images
+
+### JS
+/public/javascripts
