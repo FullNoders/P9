@@ -1,26 +1,24 @@
-// database
-var Room = require("./models/Room.js");
-var Avatar = require("./models/Avatar.js");
+// Requerimos dependencia mongoose
+const mongoose = require('mongoose');
+// Schema
+const { Schema } = mongoose;
+// Requerimos schemas
+const Avatar = require('./models/AvatarSchema');
+const Player = require('./models/PlayerSchema');
+const Room = require('./models/RoomSchema');
+// Conectamos a la base de datos
+mongoose.connect('mongodb://p9p4-mongo:27017/p9p4', {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', async function() {
+// we're connected!
+console.log("Conectado por fin");
 
-var rooms = exports.rooms = [];
-var avatars = exports.avatars = [];
-var players = exports.players = [];
+// Parámetros query 
+const filter = {};
 
-rooms.push( new Room(1) );
-rooms.push( new Room(2) );
-rooms.push( new Room(3) );
-rooms.push( new Room(4) );
-
-avatars.push( new Avatar(1,'/images/1.png'));
-avatars.push( new Avatar(2,'/images/2.png'));
-avatars.push( new Avatar(3,'/images/3.png'));
-avatars.push( new Avatar(4,'/images/4.png'));
-avatars.push( new Avatar(5,'/images/5.png'));
-avatars.push( new Avatar(6,'/images/6.png'));
-avatars.push( new Avatar(7,'/images/7.png'));
-avatars.push( new Avatar(8,'/images/8.png'));
-avatars.push( new Avatar(9,'/images/9.png'));
-avatars.push( new Avatar(10,'/images/10.png'));
-
-// rooms.push({ name: 'TJ', pets: [pets[0], pets[1], pets[2]], id: 0  });
-
+// Exportamos
+var rooms = exports.rooms = await Room.find(filter);
+var avatars = exports.avatars = await Room.find(filter);
+var players = exports.players = await Room.find(filter);
+});

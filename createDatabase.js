@@ -1,5 +1,6 @@
 // Requerimos dependencia mongoose
 const mongoose = require('mongoose');
+// Schema
 const { Schema } = mongoose;
 // Conectamos a la base de datos
 mongoose.connect('mongodb://p9p4-mongo:27017/p9p4', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -9,44 +10,10 @@ db.once('open', function() {
 // we're connected!
 console.log("Conectado por fin");
 
-
-// Definimos avatar Schema
-const avatarSchema = new Schema({
-    image: String,
-    available: Boolean
-});
-
-// Modelo Avatar
-const Avatar = mongoose.model('avatares', avatarSchema);
-
-// Definimos player Schema
-const playerSchema = new Schema({
-    name: String,
-    avatar: [avatarSchema],
-    points: Number,
-    percentageWin: Number,
-    ready: Boolean,
-    position: String,
-    room: String
-});
-
-// Modelo Player
-const Player = mongoose.model('players', playerSchema);
-
-// Creamos colección rooms
-const roomSchema = new Schema({
-    name: String,
-    players: [playerSchema],
-    matriz: Array,
-    activePlayer: Number,
-    winner: String,
-    startPlayer: String,
-    turn: Number,
-    available: Boolean
-});
-
-// Modelo Room
-const Room = mongoose.model('rooms', roomSchema);
+// Requerimos schemas
+const Avatar = require('./models/AvatarSchema');
+const Player = require('./models/PlayerSchema');
+const Room = require('./models/RoomSchema');
 
 const room1 = new Room({ name: '1' });
 const room2 = new Room({ name: '2' });
