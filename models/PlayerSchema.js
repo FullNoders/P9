@@ -8,7 +8,7 @@ const {Avatar, avatarSchema} = require('./AvatarSchema');
 const playerSchema = new Schema({
     id: Number,
     name: String,
-    avatar: [avatarSchema],
+    avatar: avatarSchema,
     points: Number,
     percentageWin: Number,
     ready: Boolean,
