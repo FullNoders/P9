@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 // Definimos avatar Schema
 const avatarSchema = new Schema({
+    id: Number,
     image: String,
     available: Boolean
 });

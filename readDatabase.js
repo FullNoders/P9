@@ -28,4 +28,7 @@ module.exports = {
     'avatars': avatars,
     'players': players
 }
+
+console.log(rooms);
+console.log(avatars);
 });

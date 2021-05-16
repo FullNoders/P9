@@ -6,6 +6,7 @@ const { Schema } = mongoose;
 const {Player, playerSchema} = require('./PlayerSchema');
 // Creamos colección rooms
 const roomSchema = new Schema({
+    id: Number,
     name: String,
     players: [playerSchema],
     matriz: Array,

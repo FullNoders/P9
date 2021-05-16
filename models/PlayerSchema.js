@@ -6,6 +6,7 @@ const { Schema } = mongoose;
 const {Avatar, avatarSchema} = require('./AvatarSchema');
 // Definimos player Schema
 const playerSchema = new Schema({
+    id: Number,
     name: String,
     avatar: [avatarSchema],
     points: Number,
