@@ -9,9 +9,9 @@ db.once('open', function() {
   console.log("Conectado por fin");
   // Limpiamos base de datos
   mongoose.set('debug', true);
-/*   mongoose.connection.dropDatabase(error => {
+    mongoose.connection.dropDatabase(error => {
     console.log(error);
-  }); */
+  }); 
   db.dropCollection("avatars", function (err, result) {
     if (err) {
         console.log("error delete collection");
