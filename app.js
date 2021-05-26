@@ -105,6 +105,7 @@ const { Avatar } = require('./models/AvatarSchema');
 const { Player } = require('./models/PlayerSchema');
 const Room = require('./models/RoomSchema');
 
+
 const room1 = new Room({ id: 1, name: 'Sala 1', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true });
 const room2 = new Room({ id: 2, name: 'Sala 2', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true });
 const room3 = new Room({ id: 3, name: 'Sala 3', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true });

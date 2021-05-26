@@ -9,7 +9,7 @@ Avatar.find({}).then(avatares => {
     }
  });
 
- var rooms = exports.rooms = [];
+var rooms = exports.rooms = [];
 
 /* rooms.push( new Room({id: 1}) );
 rooms.push( new Room({id: 2}) );

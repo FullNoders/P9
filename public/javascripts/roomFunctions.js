@@ -28,8 +28,8 @@ function conquer(cell){
             var res = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "200") {
                 console.log(res);
-                let room = res.room;
-                let player = res.player;
+                //let room = res.room;
+                //let player = res.player;
                 //socket.emit('conquer', json);
             } else {
                 console.error(res);

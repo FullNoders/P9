@@ -19,7 +19,7 @@ exports.list = function(req, res){
       // User Avatar
       //Guardamos el avatar que nos llega de la request
       let avatarId = req.body.avatar;
-      Avatar.findOneAndUpdate({ id: avatarId }, {available: false}, {returnOriginal: false}).then(avatar => {
+      Avatar.findOneAndUpdate({ id: avatarId }, {available: false}, {new: true}).then(avatar => {
         // Player: lo construimos. Metemos la fecha como identificador unívoco
         const player = new Player({ id: new Date().valueOf(), name: name, points: 0, percentageWin: 0, ready: false, avatar:avatar});
         player.save().then(() => {
@@ -36,19 +36,45 @@ exports.list = function(req, res){
 
     //Si resulta que no tenemos sesion de player enviamos al usuario al home (para evitar fallos)  
     }else if(!req.session.player){
+      console.log("condición redirección");
       res.redirect('/');
       //Si resulta que el player ya tenía una sala asignada... (pero salío)
     }else if(req.session.player.room){
+      console.log("veamos");
+      console.log(req.session.player);
       // quitar jugador de la partida que tenga en curso
-      Room.findOneAndDelete({ 'players.id': req.session.player.id }, {}).then(player => {
-      //La room asignada al player se borra
-      req.session.player.room = null;
-      //renderizamos con sintaxis pug (variables)
-      res.render('rooms', { 
+      Room.find({'players.id': req.session.player.id}).then(tempRooms =>{
+        console.log(tempRooms);
+        if(tempRooms.length > 0){
+          let tempPlayers = tempRooms[0].players;
+          const playerIndex = tempPlayers.map(e => e.id).indexOf(req.session.player.id);
+          tempPlayers.splice(playerIndex, 1);
+          Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: tempPlayers}, {new: true}).then(tempRoom => {
+            //La room asignada al player se borra
+            req.session.player.room = null;
+            //renderizamos con sintaxis pug (variables)
+            Room.find({}).sort('id').then(roomsUpdated=>{
+              res.render('rooms', { 
+                title: 'Salas', 
+                rooms: roomsUpdated,
+                player: req.session.player
+              });
+            });
+          });
+        }else{
+          res.render('rooms', { 
+            title: 'Salas', 
+            rooms: rooms,
+            player: req.session.player
+          });
+        }
+      });
+    }else{
+        //renderizamos con sintaxis pug (variables)
+        res.render('rooms', { 
         title: 'Salas', 
         rooms: rooms,
         player: req.session.player
-      });
       });
     }
   });
@@ -92,19 +118,23 @@ exports.view = function(req, res){
     // Add player to room
       //id de room se guarda en sesion
     //req.session.player.room = req.room.id;
-    Player.findOneAndUpdate({ id: req.session.player.id }, {room: req.room.id}, {returnOriginal: false}).then(player => {
+    Player.findOneAndUpdate({ id: req.session.player.id }, {room: req.room.id}, {new: true}).then(player => {
 
     console.log("guardamos sala a jugador ");
     console.log(req.session.player);
+    console.log(player);
     //añadimos la sesión de player al array players de la request
     Room.find({id: req.room.id}).then(tempRooms =>{
       let tempPlayers = tempRooms[0].players;
-      tempPlayers.push(req.session.player);
-      Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: tempPlayers}, {returnOriginal: false}).then(tempRoom => {
-        
+      req.session.player = player;
+      console.log(req.session.player);
+      tempPlayers.push(player);
+      Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: tempPlayers}, {new: true}).then(tempRoom => {
+        console.log(tempRoom);
         //req.room.players.push(req.session.player);
         console.log("guardamos jugador en sala jugadores");
         console.log(req.room);
+        req.room.players = tempRoom.players;
         // Añadimos usuario a la sala
         io.on('connection', (socket) => {
           // Usuario conectado
@@ -119,20 +149,25 @@ exports.view = function(req, res){
           }); */
         });
 
-        if(tempRoom.players.length == 3){
-          //Si la cantidad de player es igual a tres, la sala se bloquea (mediante pug)
-          Room.findOneAndUpdate({ id: tempRoom.id }, {available: false}, {returnOriginal: false}).then(tempRoom2 => {
-            //req.room.available = false;
-            // Avisamos de que comienza la partida
-            io.in(req.room.id).emit('start', { start: true}); // This will emit the event to all connected sockets
-          })
-        }
-
           //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
           res.render('rooms/view', {
             title: req.room.name,
             room: tempRoom
           });
+
+          
+          if(tempRoom.players.length == 3){
+            setTimeout(() => {
+              //Si la cantidad de player es igual a tres, la sala se bloquea (mediante pug)
+              Room.findOneAndUpdate({ id: tempRoom.id }, {available: false}, {new: true}).then(tempRoom2 => {
+                //req.room.available = false;
+                // Avisamos de que comienza la partida
+                io.in(req.room.id).emit('start', { start: true}); // This will emit the event to all connected sockets
+              })
+            }, 3000);
+          }
+          
+   
 
       })
     })
@@ -142,6 +177,12 @@ exports.view = function(req, res){
   //Si sesion de player sí está definida y la room-id de la request no es la room de la session de player
   }else if(req.session.player.room != req.room.id){
     res.redirect('/'); //redirección
+  }else{
+      //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
+      res.render('rooms/view', {
+        title: req.room.name,
+        room: req.room
+      });
   }
 
 };
@@ -159,35 +200,71 @@ exports.update = function(req, res){
   // Normally you would handle all kinds of
   // validation and save back to the db
   // recogemos parámetros de la request
+  console.log(req);
   let row = req.body.row;
-  let col = req.body.col;  
+  let col = req.body.col;
+  console.log(row);
+  console.log(col);
   // guardamos datos de movimiento
   req.session.player.position = row+"-"+col;
   var id = req.params.id;
-  req.room = rooms[id-1];
-  req.room.matriz[row][col] = req.session.player.avatar.id;
-  req.room.turn++;
+  // req.room = rooms[id-1];
+  // Obtenemos sala de base de datos
+  Room.find({'id': req.room.id}).then(rooms =>{
+    room = rooms[0];
 
-  // Hay ganador?
-  // Condición para ganar
-  if(gameboardFull(req.room.matriz)){
-    req.room.winner = whoWin(req.room.matriz,req.room.players);
-  }
-  // req.room.winner = req.room.activePlayer;
-  if(req.room.activePlayer == 2){
-    req.room.activePlayer = 0;
-  }else{
-    req.room.activePlayer++;
-  }
-  // destruir casillero
-  if(req.room.turn%5 == 0){
-    randomrow = Math.round(getRandomArbitrary(0,4));
-    randomcol = Math.round(getRandomArbitrary(0,4));
-    req.room.matriz[randomrow][randomcol] = 11;
-  }
-  // devolvemos id usuario
-  res.end(JSON.stringify({room:req.room,player:req.session.player}));
-  io.in(req.room.id).emit('next');
+    // Obtenemos matriz y jugador activo
+    let matriz = room.matriz;
+    console.log(matriz);
+    let activePlayer = room.activePlayer;
+      // Almacenamos movimiento en la base de datos
+    matriz[row][col] = req.session.player.avatar.id;
+    Room.findOneAndUpdate({ id: req.room.id }, {matriz: matriz}, {new: true}).then(tempRoom => {
+    });
+      // Almacenamos un turno más
+    let turnoActual = room.turn;
+    turnoActual++;
+    Room.findOneAndUpdate({ id: req.room.id }, {turn: turnoActual}, {new: true}).then(tempRoom => {
+    });
+    // Hay ganador?
+    console.log("hay ganador");
+    // Condición para ganar
+    if(gameboardFull(req.room.matriz)){
+      let winner = whoWin(req.room.matriz,req.room.players);
+      Room.findOneAndUpdate({ id: req.room.id }, {winner: winner}, {new: true}).then(tempRoom => {
+      });
+    }
+    // Jugador activo
+    if(req.room.activePlayer == 2){
+      Room.findOneAndUpdate({ id: req.room.id }, {activePlayer: 0}, {new: true}).then(tempRoom => {
+      });
+      //req.room.activePlayer = 0;
+    }else{
+      activePlayer++;
+      Room.findOneAndUpdate({ id: req.room.id }, {activePlayer: activePlayer}, {new: true}).then(tempRoom => {
+      });
+      //req.room.activePlayer++;
+    }
+    // destruir casillero
+    if(req.room.turn%5 == 0){
+      randomrow = Math.round(getRandomArbitrary(0,4));
+      randomcol = Math.round(getRandomArbitrary(0,4));
+      matriz[randomrow][randomcol] = 11;
+      Room.findOneAndUpdate({ id: req.room.id }, {matriz: matriz}, {new: true}).then(tempRoom => {
+      });
+      //req.room.matriz[randomrow][randomcol] = 11;
+    }
+    
+    // req.room.matriz[row][col] = req.session.player.avatar.id;
+    //req.room.turn++;
+
+    // req.room.winner = req.room.activePlayer;
+    console.log("respuesta");
+    // devolvemos id usuario
+    res.end(JSON.stringify({player:req.session.player}));
+    io.in(req.room.id).emit('next');
+  });
+
   // res.redirect('back');
 };
 
