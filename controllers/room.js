@@ -142,11 +142,26 @@ exports.view = function(req, res){
           // añadimos usuario al grupo de la sala
           socket.join(req.room.id);
           // Usuario desconectado
-          /*  socket.on('disconnect', () => {
+          socket.on("disconnect", () => {
             console.log('user disconnected');
             // sending to all clients in 'game' room(channel) except sender
-            socket.broadcast.to(req.room.id).emit('desertor');
-          }); */
+            //socket.broadcast.to(req.room.id).emit('desertor');
+            
+            //borrar base de datos
+            Room.findOneAndDelete({ players: req.session.player });
+            Player.findOneAndDelete({ 'id': req.session.player.id });
+            Room.findOneAndUpdate({ id: tempRoom.id }, {available: true}, {new: true}).then(tempRoom2 => {
+              //req.room.available = false;
+              // Avisamos de que comienza la partida
+              ///// ** end sin usar ******
+              io.in(req.room.id).emit('end', { start: true}); // This will emit the event to all connected sockets
+            })
+              // Enviamos socket a la sala
+            socket.to(req.room.id).emit('desertor');
+            socket.leave(req.room.id);
+            
+            
+          });
         });
 
           //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento

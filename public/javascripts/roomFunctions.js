@@ -52,11 +52,11 @@ socket.on('next', function(msg) {
 });
 
 /* Esperando aviso de jugador abandonando juego */ 
-/* socket.on('desertor', function(msg) {
+ socket.on('desertor', function(msg) {
     // Refrescamos pantalla
     alert("Un jugador ha abandonado la partida. El juego se dará por finalizado.");
     window.location.href = "/";
-}); */
+});
 
 
 function renderCanvasP9(cell){
