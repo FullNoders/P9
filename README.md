@@ -23,3 +23,15 @@ docker exec -it CONTAINER_ID bash
 node createDatabase.js
 ## Uso
 Al ejecutar el contenedor de la aplicación se queda a la escucha en el localhost:3000
+# Reglas de juego
+- Hay 4 salas disponibles para jugar
+- Cuando una sala se llena, con 3 jugadores, comienza la partida
+- Si un jugador abandona la sala, esté llena o no, se expulsa a los jugadores de la sala y la partida es cancelada
+- Al comenzar la partida, cada jugador puede hacer un movimiento por turno
+- Se debe conquistar una celda del casillero, haciendo clic en la celda
+- Gana el que haya conquistado más celdas del casillero al finalizar la partida
+- La partida finaliza cuando ya no quedan más celdas por conquistar
+- Aleatoriamente se van destruyendo casilleros
+- Si el casillero destruido estaba ocupado por un jugador, pierde la conquista de esa celda
+## Desconexión
+La desconexión se gestiona por socket.io. La pérdida de conexión a internet, cierra de la pestaña de juego o refresco de la página supone un cierre de socket que se interpreta como abandono de la partida.

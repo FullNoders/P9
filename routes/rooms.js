@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var room = require('../controllers/room');
-/* GET rooms listing. */
+
+/* Rooms requests */
 
 router.all('/', room.list);
 router.all('/:id/:op?', room.load);

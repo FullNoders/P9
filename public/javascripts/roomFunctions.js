@@ -1,26 +1,21 @@
 
+/* Función para animar la conquista de una celda del tablero de juego */
 function conquer(cell){
-    // Animación canvas
+    // Ejecutar animación
     renderCanvasP9(cell);
-/*     
-    var canvas = document.createElement('canvas');
-    canvas.width=64;
-    canvas.height=64;
-    var ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    ctx.rect(0, 0, 64, 64);
-    ctx.fillStyle = "black";
-    ctx.fill();
-    document.getElementById(cell).appendChild(canvas); */
-    // petición xhr
+    // Enviar la información del movimiento al servidor
+    // Es un set timeout para que de tiempo a ver la animación de la conquista
     setTimeout(function () {
+        // Obtenemos fila y columna
         let rowcol = cell.split("-");
         let row = rowcol[0];
         let col = rowcol[1];
+        // Creamos objeto para enviar los datos en la request
         let data = {};
         data.row = row;
         data.col = col;
         let json = JSON.stringify(data);
+        // Request
         let xhr = new XMLHttpRequest();
         xhr.open('put', window.location.href+'/update', true); // /rooms/1/update
         xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
@@ -28,9 +23,6 @@ function conquer(cell){
             var res = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "200") {
                 console.log(res);
-                //let room = res.room;
-                //let player = res.player;
-                //socket.emit('conquer', json);
             } else {
                 console.error(res);
             }        
@@ -41,13 +33,13 @@ function conquer(cell){
 
 /* Esperando aviso de fin de turno */ 
 socket.on('start', function(msg) {
-    // Refrescamos pantalla
+    // Cargamos la vista actualizada en el window document
     loadUrl(window.location.href);
 });
 
 /* Esperando aviso de fin de turno */ 
 socket.on('next', function(msg) {
-    // Refrescamos pantalla
+    // Cargamos la vista actualizada en el window document
     loadUrl(window.location.href);
 });
 
@@ -55,18 +47,26 @@ socket.on('next', function(msg) {
 socket.on('user has left', function(playerName) {
   // Mostramos alerta
   alert("El usuario "+playerName+" se ha desconectado. La partida será cancelada.")
-  // Refrescamos pantalla
+  // Salimos de la sala
   window.location.href = "/";
 });
 
-/* Esperando aviso de jugador abandonando juego */ 
-/* socket.on('desertor', function(msg) {
-    // Refrescamos pantalla
-    alert("Un jugador ha abandonado la partida. El juego se dará por finalizado.");
-    window.location.href = "/";
-}); */
+/* Función para cargar url actual y reemplazar el contenido en el document actual */
+// Esta función se desarrolló para no tener que refrescar la página
+// Así podemos gestionar las desconexiones de sockets de los usuarios de la sala más fácilmente
+function loadUrl(url) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      // Reemplazamos página actual por la respuesta recibida de la vista actualizada
+      document.querySelector('html').innerHTML = xhr.response;
+    }
+  }
+  xhr.open('GET', url, true);
+  xhr.send('');
+}
 
-
+/* Animación de la celda */
 function renderCanvasP9(cell){
     
 //set the variables
@@ -179,19 +179,4 @@ var max = (max === 0 || max)?max:1,
 
 return (_int) ? Math.round(gen) : gen;
 };
-}
-
-
-
-// cargar url
-function loadUrl(url) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4) {
-      // Reemplazamos página actual por respuesta
-      document.querySelector('html').innerHTML = xhr.response;
-    }
-  }
-  xhr.open('GET', url, true);
-  xhr.send('');
 }
