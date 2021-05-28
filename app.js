@@ -77,9 +77,11 @@ db.once('open', function() {
   // Limpiamos base de datos
   mongoose.set('debug', true);
     mongoose.connection.dropDatabase(error => {
-    console.log(error);
+      if(error){
+        console.log(error);
+      }
   }); 
-  db.dropCollection("avatars", function (err, result) {
+  /* db.dropCollection("avatars", function (err, result) {
     if (err) {
         console.log("error delete collection");
     } else {
@@ -99,7 +101,7 @@ db.once('open', function() {
     } else {
         console.log("delete collection success");
     }
-  });
+  }); */
   // Requerimos schemas
 const { Avatar } = require('./models/AvatarSchema');
 const { Player } = require('./models/PlayerSchema');
