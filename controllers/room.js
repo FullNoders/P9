@@ -11,7 +11,7 @@ const {Player} = require('../models/PlayerSchema');
 exports.list = function(req, res){
   // Obtenemos todas las salas
   Room.find({}).sort('id').then(rooms=>{
-    console.log(rooms);
+    // console.log(rooms);
     //Si la petición es post Y si tenemos username y avatar váidos Y si no tenemos guardada en sesión el player
     if(req.method == "POST" && req.body.name && req.body.avatar && !req.session.player){
       // User name: La respuesta con el username es guardada en esta variable
@@ -41,7 +41,8 @@ exports.list = function(req, res){
       //Si resulta que el player ya tenía una sala asignada... (pero salío)
     }else if(req.session.player.room){
       console.log("veamos");
-      console.log(req.session.player);
+      // console.log(req.session.player);
+      req.session.player.room = null;
       // quitar jugador de la partida que tenga en curso
       Room.find({'players.id': req.session.player.id}).then(tempRooms =>{
         console.log(tempRooms);
@@ -84,7 +85,7 @@ exports.list = function(req, res){
 exports.load = function(req, res, next){
   var id = req.params.id;
   Room.find({id:id}).then(room => {
-    console.log(room);
+    // console.log(room);
     req.room = room[0];
     if (req.room) {
       next();
@@ -106,12 +107,15 @@ exports.view = function(req, res){
   console.log(req.room);
   if(!req.session.player){
     //Si no tenemos session de player enviamos al usuario al home (7/)
+    console.log("no tiene sesión");
     res.redirect('/');
   }
   if(!req.session.player.room){
     //si el player no tiene room asignada...
+    console.log("si el player no tiene room asignada...");
     if(!req.room.available){
       //si la room no está disponible, redirección al home
+      console.log("si la room no está disponible, redirección al home");
       res.redirect('/');
     }
     //Como el player no tiene dirección asignada...
@@ -119,69 +123,99 @@ exports.view = function(req, res){
       //id de room se guarda en sesion
     //req.session.player.room = req.room.id;
     Player.findOneAndUpdate({ id: req.session.player.id }, {room: req.room.id}, {new: true}).then(player => {
-
-    console.log("guardamos sala a jugador ");
-    console.log(req.session.player);
-    console.log(player);
-    //añadimos la sesión de player al array players de la request
-    Room.find({id: req.room.id}).then(tempRooms =>{
-      let tempPlayers = tempRooms[0].players;
-      req.session.player = player;
-      console.log(req.session.player);
-      tempPlayers.push(player);
-      Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: tempPlayers}, {new: true}).then(tempRoom => {
-        console.log(tempRoom);
-        //req.room.players.push(req.session.player);
-        console.log("guardamos jugador en sala jugadores");
-        console.log(req.room);
-        req.room.players = tempRoom.players;
-        // Añadimos usuario a la sala
-        io.on('connection', (socket) => {
-          // Usuario conectado
-          console.log('a user connected');
-          // añadimos usuario al grupo de la sala
-          socket.join(req.room.id);
-          // Usuario desconectado
-          /*  socket.on('disconnect', () => {
-            console.log('user disconnected');
-            // sending to all clients in 'game' room(channel) except sender
-            socket.broadcast.to(req.room.id).emit('desertor');
-          }); */
-        });
-
-          //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
-          res.render('rooms/view', {
-            title: req.room.name,
-            room: tempRoom
+      console.log("guardamos sala a jugador ");
+      // console.log(req.session.player);
+      // console.log(player);
+      //añadimos la sesión de player al array players de la request
+      Room.find({id: req.room.id}).then(tempRooms =>{
+        let tempPlayers = tempRooms[0].players;
+        req.session.player = player;
+        console.log(req.session.player);
+        tempPlayers.push(player);
+        Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: tempPlayers}, {new: true}).then(tempRoom => {
+          // console.log(tempRoom);
+          //req.room.players.push(req.session.player);
+          console.log("guardamos jugador en sala jugadores");
+          // console.log(req.room);
+          req.room.players = tempRoom.players;
+          // Añadimos usuario a la sala
+          io.on('connection', (socket) => {
+            // Usuario conectado
+            console.log('a user connected');
+            // añadimos usuario al grupo de la sala
+            socket.join(req.room.id);
+            socket.room = req.room.id;
+            socket.name = req.session.player.name;
+            socket.playerid = req.session.player.id;
+            // Usuario desconectado
+            socket.on("disconnect", (reason) => {
+              console.log(reason);
+              console.log(socket.rooms);
+              console.log("usuario desconectado "+socket.id);
+              // socket.leave(socket.room);
+              socket.to(socket.room).emit("user has left", socket.name);
+              // Si el jugador estaba en una sala lo quitamos de allí  User.find({'tags.text': {$in: tagTexts}}
+              Room.find({'players.id': socket.playerid}).then(tempRooms =>{
+                console.log("si el jugador estaba en una sala");
+                if(tempRooms.length > 0){
+                  console.log("vamos a quitarlo");
+                  Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: [], matriz: [[null,null,null,null,null],[null,null,null,null,null],[null,null,null,null,null],[null,null,null,null,null],[null,null,null,null,null]], activePlayer: 0, available:true, turn:0}, {new: true}).then(tempRoom => {
+                    console.log("room actualizada");
+                    Player.findOneAndUpdate({ id: socket.playerid }, {room: null}, {new: true}).then(player => {
+                      console.log("player actualizado");
+                    });
+                  });
+                }
+              });
+            });
           });
 
-          
-          if(tempRoom.players.length == 3){
-            setTimeout(() => {
-              //Si la cantidad de player es igual a tres, la sala se bloquea (mediante pug)
-              Room.findOneAndUpdate({ id: tempRoom.id }, {available: false}, {new: true}).then(tempRoom2 => {
-                //req.room.available = false;
-                // Avisamos de que comienza la partida
-                io.in(req.room.id).emit('start', { start: true}); // This will emit the event to all connected sockets
-              })
-            }, 3000);
-          }
-          
-   
+            //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
+            res.render('rooms/view', {
+              title: req.room.name,
+              room: tempRoom
+            });
 
+            
+            if(tempRoom.players.length == 3){
+              console.log("bloqueamos sala");
+              setTimeout(() => {
+                //Si la cantidad de player es igual a tres, la sala se bloquea (mediante pug)
+                Room.findOneAndUpdate({ id: tempRoom.id }, {available: false}, {new: true}).then(tempRoom2 => {
+                  //req.room.available = false;
+                  // Avisamos de que comienza la partida
+                  io.in(req.room.id).emit('start', { start: true}); // This will emit the event to all connected sockets
+                })
+              }, 3000);
+            }
+            
+    
+
+        })
       })
-    })
 
-  })
+    });
      
   //Si sesion de player sí está definida y la room-id de la request no es la room de la session de player
   }else if(req.session.player.room != req.room.id){
+    console.log("si sesion sala no es la sala");
     res.redirect('/'); //redirección
   }else{
-      //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
-      res.render('rooms/view', {
-        title: req.room.name,
-        room: req.room
+    console.log("buscamos salas de jugador");
+      Room.find({'players.id': req.session.player.id}).then(playerRooms =>{
+        console.log("si hay");
+        if(playerRooms.length == 0){
+          console.log("session.player.room = null");
+          req.session.player.room = null;
+          res.redirect('/');
+        }else{
+          console.log("render");
+          //renderizamos view, recordemos que este funcion está siendo llamada desde el enrutamiento
+          res.render('rooms/view', {
+            title: req.room.name,
+            room: req.room
+          });
+        }
       });
   }
 
@@ -200,7 +234,7 @@ exports.update = function(req, res){
   // Normally you would handle all kinds of
   // validation and save back to the db
   // recogemos parámetros de la request
-  console.log(req);
+  //console.log(req);
   let row = req.body.row;
   let col = req.body.col;
   console.log(row);

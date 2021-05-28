@@ -42,13 +42,21 @@ function conquer(cell){
 /* Esperando aviso de fin de turno */ 
 socket.on('start', function(msg) {
     // Refrescamos pantalla
-    window.location.reload();
+    loadUrl(window.location.href);
 });
 
 /* Esperando aviso de fin de turno */ 
 socket.on('next', function(msg) {
     // Refrescamos pantalla
-    window.location.reload();
+    loadUrl(window.location.href);
+});
+
+/* Esperando aviso de desconexión de jugador de partida */ 
+socket.on('user has left', function(playerName) {
+  // Mostramos alerta
+  alert("El usuario "+playerName+" se ha desconectado. La partida será cancelada.")
+  // Refrescamos pantalla
+  window.location.href = "/";
 });
 
 /* Esperando aviso de jugador abandonando juego */ 
@@ -171,4 +179,19 @@ var max = (max === 0 || max)?max:1,
 
 return (_int) ? Math.round(gen) : gen;
 };
+}
+
+
+
+// cargar url
+function loadUrl(url) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      // Reemplazamos página actual por respuesta
+      document.querySelector('html').innerHTML = xhr.response;
+    }
+  }
+  xhr.open('GET', url, true);
+  xhr.send('');
 }
