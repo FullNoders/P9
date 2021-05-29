@@ -235,7 +235,8 @@ exports.update = function(req, res){
     let activePlayer = room.activePlayer;
       // Almacenamos movimiento en la base de datos
     matriz[row][col] = req.session.player.avatar.id;
-    Room.findOneAndUpdate({ id: req.room.id }, {matriz: matriz}, {new: true}).then(tempRoom => {
+    Room.findOneAndUpdate({ id: req.room.id }, {matriz: matriz}, {new: true}).then(roomMatriz => {
+      matriz = roomMatriz.matriz;
     });
       // Almacenamos un turno más
     let turnoActual = room.turn;
@@ -244,10 +245,12 @@ exports.update = function(req, res){
     });
     // Hay ganador?
     // Condición para ganar
-    if(gameboardFull(req.room.matriz)){
-      let winner = whoWin(req.room.matriz,req.room.players);
+    if(gameboardFull(matriz)){
+      console.log("tablero lleno");
+      let winner = whoWin(matriz,req.room.players);
+      console.log(winner);
       Room.findOneAndUpdate({ id: req.room.id }, {winner: winner}, {new: true}).then(tempRoom0 => {
-        //io.in(req.room.id).emit('winner',{ganador : playerwin.name});
+        console.log("ganador seteado");
       });
     }
     // Jugador activo

@@ -108,10 +108,10 @@ const { Player } = require('./models/PlayerSchema');
 const Room = require('./models/RoomSchema');
 
 
-const room1 = new Room({ id: 1, name: 'Sala 1', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: '' });
-const room2 = new Room({ id: 2, name: 'Sala 2', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: '' });
-const room3 = new Room({ id: 3, name: 'Sala 3', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: '' });
-const room4 = new Room({ id: 4, name: 'Sala 4', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: '' });
+const room1 = new Room({ id: 1, name: 'Sala 1', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: null });
+const room2 = new Room({ id: 2, name: 'Sala 2', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: null });
+const room3 = new Room({ id: 3, name: 'Sala 3', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: null });
+const room4 = new Room({ id: 4, name: 'Sala 4', activePlayer: 0, turn: 0, matriz: Array.from(Array(5), () => new Array(5)), available: true, winner: null });
 room1.save().then(() => console.log('Sala 1 creada'));
 room2.save().then(() => console.log('Sala 2 creada'));
 room3.save().then(() => console.log('Sala 3 creada'));
