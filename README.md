@@ -11,18 +11,16 @@ docker run --network p9p4 --name p9p4-mongo -d mongo
 - Descarga imagen
 docker pull teby44/p9p4-app
 - Ejecutar contenedor
-docker run --network p9p4 --name -p 3000:3000 -d conquista
+docker run --network p9p4 --name conquista -p 3000:3000 -d teby44/p9p4-app
 - Parámetro opcional para copiar cambios de la aplicación
 -v PATH_SISTEMA:/usr/src/app
-## Importación datos en base de datos
-- Visualizamos el id del contenedor
-docker ps
-- Nos conectamos por línea de comandos
-docker exec -it CONTAINER_ID bash
-- Ejecutamos la importación de datos
-node createDatabase.js
 ## Uso
 Al ejecutar el contenedor de la aplicación se queda a la escucha en el localhost:3000
+## Uso alternativo
+Hemos desplegado a un entorno de producción utilizando:
+- MongodbAtlas para la base de datos
+- Heroku para la aplicación
+- Se puede jugar directamente accediendo a este enlace: https://fullnoders.herokuapp.com
 # Reglas de juego
 - Hay 4 salas disponibles para jugar
 - Cuando una sala se llena, con 3 jugadores, comienza la partida
@@ -34,4 +32,6 @@ Al ejecutar el contenedor de la aplicación se queda a la escucha en el localhos
 - Aleatoriamente se van destruyendo casilleros
 - Si el casillero destruido estaba ocupado por un jugador, pierde la conquista de esa celda
 ## Desconexión
-La desconexión se gestiona por socket.io. La pérdida de conexión a internet, cierra de la pestaña de juego o refresco de la página supone un cierre de socket que se interpreta como abandono de la partida.
+La desconexión se gestiona por socket.io. La pérdida de conexión a internet, cierre de la pestaña de juego o refresco de la página supone un cierre de socket que se interpreta como abandono de la partida.
+# Observaciones
+Sería una buena práctica implementar variables de entorno en heroku y cargarlas para hacer la conexión a la base de datos.
