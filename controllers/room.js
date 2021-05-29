@@ -15,28 +15,41 @@ exports.list = function(req, res){
     // Si tenemos username y avatar válidos 
     // Y si no tenemos guardada en sesión el player
     if(req.method == "POST" && req.body.name && req.body.avatar && !req.session.player){
+
+      
       // User name: La respuesta con el username es guardada en esta variable
       let name = req.body.name;
       // User Avatar
       // Guardamos el avatar que nos llega de la request
       let avatarId = req.body.avatar;
-      // El avatar seleccionado deja de estar disponible
-      Avatar.findOneAndUpdate({ id: avatarId }, {available: false}, {new: true}).then(avatar => {
-        // Creamos player
-        // Generamos un id único con la fecha actual
-        const player = new Player({ id: new Date().valueOf(), name: name, points: 0, percentageWin: 0, ready: false, avatar:avatar});
-        // Hacemos persistencia en db del player
-        player.save().then(() => {
-          //En la sessión de la petición llamada player guardamos todo el (modelo) del player creado
-          req.session.player = player;
-          // Renderizamos vista de salas
-          res.render('rooms', { 
-            title: 'Salas', 
-            rooms: rooms,
-            player: req.session.player
+      // Comprobamos que el avatar está disponible
+      Avatar.findOne({id: avatarId}).then(avatarCheck => {
+        if(avatarCheck.available){
+          // Avatar disponible
+          // El avatar seleccionado deja de estar disponible
+          Avatar.findOneAndUpdate({ id: avatarId }, {available: false}, {new: true}).then(avatar => {
+            // Creamos player
+            // Generamos un id único con la fecha actual
+            const player = new Player({ id: new Date().valueOf(), name: name, points: 0, percentageWin: 0, ready: false, avatar:avatar});
+            // Hacemos persistencia en db del player
+            player.save().then(() => {
+              //En la sessión de la petición llamada player guardamos todo el (modelo) del player creado
+              req.session.player = player;
+              // Renderizamos vista de salas
+              res.render('rooms', { 
+                title: 'Salas', 
+                rooms: rooms,
+                player: req.session.player
+              });
+            });
           });
-        });
-      });  
+        }else{
+          // Avatar no disponible
+          // Redirigimos a la portada
+          res.redirect('/');
+        }
+      });
+      
 
     // Si la peticiòn no es post y no hay sesión de usuario
     }else if(!req.session.player){
