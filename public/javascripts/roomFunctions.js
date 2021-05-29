@@ -43,6 +43,12 @@ socket.on('next', function(msg) {
     loadUrl(window.location.href);
 });
 
+/* Mostrar ganador */ 
+/* socket.on('winner', function(winner) {
+    alert('¡Enhorabuena! El ganador es: '+winner);
+    window.location.href = "/";
+}); */
+
 /* Esperando aviso de desconexión de jugador de partida */ 
 socket.on('user has left', function(playerName) {
   // Mostramos alerta

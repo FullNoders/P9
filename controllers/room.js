@@ -147,12 +147,15 @@ exports.view = function(req, res){
             socket.room = req.room.id;
             socket.name = req.session.player.name;
             socket.playerid = req.session.player.id;
+            socket.avatarid = req.session.player.avatar.id;
             // En caso de que se desconecte
             socket.on("disconnect", (reason) => {
               // Avisamos a los jugadores de la sala de la desconexión del usuario
               // Así se gestionará la cancelación de la partida y los usuarios saldrán de la sala
               // Lo aplicamos a todos los métodos de desconexión (ej.: refrescar la página supone una desconexión)
               socket.to(socket.room).emit("user has left", socket.name);
+              //Si el tablero está lleno: hay ganador
+              //////
               // Si el jugador estaba en una sala lo quitamos de allí
               Room.find({'players.id': socket.playerid}).then(tempRooms =>{
                 if(tempRooms.length > 0){
@@ -160,6 +163,7 @@ exports.view = function(req, res){
                   Room.findOneAndUpdate({ id: tempRooms[0].id }, {players: [], matriz: [[null,null,null,null,null],[null,null,null,null,null],[null,null,null,null,null],[null,null,null,null,null],[null,null,null,null,null]], activePlayer: 0, available:true, turn:0, winner:null}, {new: true}).then(tempRoom => {
                     // Desasociamos sala de player
                     Player.findOneAndUpdate({ id: socket.playerid }, {room: null}, {new: true}).then(player => {
+                      Avatar.findOneAndUpdate({id: socket.avatarid}, {available:true}, {new: true}).then(avatar =>{});
                     });
                   });
                 }
@@ -223,7 +227,7 @@ exports.update = function(req, res){
   var id = req.params.id;
   // req.room = rooms[id-1];
   // Obtenemos sala de base de datos
-  Room.find({'id': req.room.id}).then(rooms =>{
+  Room.find({id: req.room.id}).then(rooms =>{
     room = rooms[0];
 
     // Obtenemos matriz y jugador activo
@@ -242,7 +246,8 @@ exports.update = function(req, res){
     // Condición para ganar
     if(gameboardFull(req.room.matriz)){
       let winner = whoWin(req.room.matriz,req.room.players);
-      Room.findOneAndUpdate({ id: req.room.id }, {winner: winner}, {new: true}).then(tempRoom => {
+      Room.findOneAndUpdate({ id: req.room.id }, {winner: winner}, {new: true}).then(tempRoom0 => {
+        //io.in(req.room.id).emit('winner',{ganador : playerwin.name});
       });
     }
     // Jugador activo
@@ -292,6 +297,7 @@ function whoWin(matriz, players){
   for(i=0; i<matriz.length; i++){
     for(j=0; j<matriz[i].length; j++){
         playerAvatar = matriz[i][j];
+        //si el jugador tiene avatar y ademas es diferente al juego
         if(playerAvatar && playerAvatar != 11){
           index = players.map(e => e.avatar.id).indexOf(playerAvatar);
           playerId = players[index].id;
